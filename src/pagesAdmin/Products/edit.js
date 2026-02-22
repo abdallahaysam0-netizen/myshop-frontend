@@ -100,7 +100,9 @@ export default function AdminEditProduct() {
     try {
       const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`,
+          'ngrok-skip-browser-warning': 'true'
+        },
         body: formData,
       });
       const data = await res.json();

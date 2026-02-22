@@ -26,8 +26,12 @@ const ProductsPage = () => {
     const url = search
       ? `https://marisa-nonretired-willis.ngrok-free.dev/api/products/search?q=${search}&page=${currentPage}`
       : `https://marisa-nonretired-willis.ngrok-free.dev/api/products?page=${currentPage}`;
-
-    fetch(url)
+fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true" // السطر ده هو اللي هيظهر البيانات
+      }
+    })
       .then((res) => res.json())
       .then((res) => {
         const productsArray = res.data?.data || [];

@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import axios from "axios";
+
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/userContext";
 import { Mail, Lock, LogIn, Loader2, AlertCircle, ArrowRight } from "lucide-react";
@@ -23,7 +24,7 @@ const LoginPage = () => {
         setError("");
         try {
             const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/login", formData);
-            
+            axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
             // استخراج البيانات من استجابة Laravel
             const { id, role, name } = res.data.user; 
             const token = res.data.token;

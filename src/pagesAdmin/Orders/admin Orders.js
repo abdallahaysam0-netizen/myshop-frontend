@@ -66,7 +66,9 @@ export default function AdminOrders() {
       const res = await axios.post(
         `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${orderId}/cancel`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}`,
+          'ngrok-skip-browser-warning': 'true'
+        } }
       );
       if (res.data.success) {
         fetchOrders(); 

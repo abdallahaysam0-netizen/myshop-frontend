@@ -12,6 +12,7 @@ const OfferPage = () => {
     const fetchOffers = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/api/products-offers`);
+        axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
         if (response.data.success) {
           setProducts(response.data.data.data);
         }

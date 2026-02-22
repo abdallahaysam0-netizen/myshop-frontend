@@ -22,7 +22,8 @@ export default function AdminOrdersDetails() {
       const res = await axios.get(`https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}`, {
         headers: { 
             Authorization: `Bearer ${token}`,
-            "Accept": "application/json"
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
         },
       });
       if (res.data.success) {

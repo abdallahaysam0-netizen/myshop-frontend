@@ -15,6 +15,7 @@ const DetailsOrderPage = () => {
       headers: {
         Authorization: `Bearer ${token}`,
         "Accept": "application/json",
+        "ngrok-skip-browser-warning": "true"
       },
     })
       .then((res) => res.json())

@@ -7,7 +7,11 @@ export default function AdminCategoriesDetails() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`)
+        fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`, {
+            headers: {
+                'ngrok-skip-browser-warning': 'true'
+            }
+        })
             .then(res => res.json())
             .then(data => {
                 setCategory(data.data);

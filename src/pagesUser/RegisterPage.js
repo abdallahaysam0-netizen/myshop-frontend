@@ -32,8 +32,9 @@ const RegisterPage = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/register", formData);
 
+      const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/register", formData);
+axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.user.role);
       localStorage.setItem("user_name", res.data.user.name);

@@ -34,7 +34,11 @@ const ProductDetails = () => {
   }, [id]);
 
   const fetchRelated = (categoryId) => {
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${categoryId}/products`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${categoryId}/products`, {
+      headers: {
+        "ngrok-skip-browser-warning": "true"
+      }
+    })
       .then(res => res.json())
       .then(data => {
         const filtered = data.data.filter(p => p.id !== parseInt(id)).slice(0, 4);

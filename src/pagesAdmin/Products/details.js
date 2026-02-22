@@ -8,7 +8,12 @@ export default function ProductAdminDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "ngrok-skip-browser-warning": "true"
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         setProduct(data.data);

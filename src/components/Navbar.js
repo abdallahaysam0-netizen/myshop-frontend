@@ -19,7 +19,10 @@ const Navbar = () => {
 
     try {
         const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/notifications", {
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { 
+              Authorization: `Bearer ${token}`,
+              'ngrok-skip-browser-warning': 'true'
+            }
         });
         setNotifications(res.data); 
     } catch (e) {

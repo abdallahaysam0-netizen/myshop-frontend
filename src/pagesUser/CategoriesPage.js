@@ -6,7 +6,11 @@ const CategoriesPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories")
+    fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories", {
+      headers: {
+        "ngrok-skip-browser-warning": "true"
+      }
+    })
       .then(res => res.json())
       .then(data => {
         setCategories(data.data);

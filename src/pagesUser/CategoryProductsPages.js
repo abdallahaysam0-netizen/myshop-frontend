@@ -11,7 +11,11 @@ const CategoryProduct = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}/products`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}/products`, {
+      headers: {
+        "ngrok-skip-browser-warning": "true"
+      }
+    })
       .then(res => res.json())
       .then(data => {
         // معالجة روابط الصور لتكون صحيحة وجاهزة للعرض
