@@ -11,7 +11,7 @@ const CategoryProduct = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://127.0.0.1:8000/api/categories/${id}/products`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}/products`)
       .then(res => res.json())
       .then(data => {
         // معالجة روابط الصور لتكون صحيحة وجاهزة للعرض
@@ -20,7 +20,7 @@ const CategoryProduct = () => {
           image: product.image
             ? product.image.startsWith("http")
               ? product.image
-              : `http://127.0.0.1:8000/storage/${product.image}`
+              : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${product.image}`
             : null,
         }));
         setProducts(productsWithImages);

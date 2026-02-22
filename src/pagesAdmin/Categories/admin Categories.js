@@ -22,7 +22,7 @@ export default function AdminCategory() {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://127.0.0.1:8000/api/categories", {
+      const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -45,7 +45,7 @@ export default function AdminCategory() {
     if (!window.confirm("⚠️ هل أنت متأكد من حذف هذه الفئة؟ قد يؤثر هذا على المنتجات المرتبطة بها.")) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/categories/${id}`, {
+      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

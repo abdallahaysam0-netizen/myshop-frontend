@@ -19,7 +19,7 @@ export default function AdminDashboard() {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        fetch("http://127.0.0.1:8000/api/admin/stats", {
+        fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/admin/stats", {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

@@ -32,7 +32,7 @@ const RegisterPage = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://127.0.0.1:8000/api/register", formData);
+      const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/register", formData);
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.user.role);

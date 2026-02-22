@@ -16,7 +16,7 @@ export default function AdminCreateProduct() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch("http://127.0.0.1:8000/api/categories");
+                const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories");
                 const data = await res.json();
                 if (data.status === "success" || data.success) {
                     setCategories(data.data);
@@ -52,7 +52,7 @@ export default function AdminCreateProduct() {
         });
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/products", {
+            const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/products", {
                 method: "POST",
                 headers: { Authorization: `Bearer ${token}` },
                 body: formData,

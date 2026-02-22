@@ -15,7 +15,7 @@ export default function AdminEditCategory() {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/categories/${id}`, {
+        const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.devس/api/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -53,7 +53,7 @@ export default function AdminEditCategory() {
     formData.append("is_active", category.is_active ? 1 : 0); // لو هتعدل الحالة
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/categories/${id}`, {
+      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,

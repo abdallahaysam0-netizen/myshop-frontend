@@ -4,7 +4,7 @@ const LogoutPage=()=>{
 const {setUser}=useContext(UserContext);
 const handleLogout=async()=>{
 try{
-    const res=await fetch("http://localhost:8000/api/customer/logout",{
+    const res=await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/customer/logout",{
         method:"POST",
   credentials: "include", // مهم لو Sanctum و Cookies
         headers:{

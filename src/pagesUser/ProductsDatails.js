@@ -15,7 +15,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://127.0.0.1:8000/api/products/${id}`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -34,7 +34,7 @@ const ProductDetails = () => {
   }, [id]);
 
   const fetchRelated = (categoryId) => {
-    fetch(`http://127.0.0.1:8000/api/categories/${categoryId}/products`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${categoryId}/products`)
       .then(res => res.json())
       .then(data => {
         const filtered = data.data.filter(p => p.id !== parseInt(id)).slice(0, 4);

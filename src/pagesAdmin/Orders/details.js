@@ -19,7 +19,7 @@ export default function AdminOrdersDetails() {
 
   const fetchOrderDetails = async () => {
     try {
-      const res = await axios.get(`http://127.0.0.1:8000/api/orders/${id}`, {
+      const res = await axios.get(`https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}`, {
         headers: { 
             Authorization: `Bearer ${token}`,
             "Accept": "application/json"
@@ -43,7 +43,7 @@ export default function AdminOrdersDetails() {
     setUpdating(true);
     try {
       const res = await axios.patch(
-        `http://127.0.0.1:8000/api/orders/${id}/status`,
+        `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

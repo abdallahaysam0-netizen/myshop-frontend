@@ -8,7 +8,7 @@ export default function ProductAdminDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/products/${id}`)
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data.data);

@@ -14,7 +14,7 @@ export default function AdminProducts() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://127.0.0.1:8000/api/products?page=${currentPage}`, {
+      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products?page=${currentPage}`, {
         headers: { Authorization: `Bearer ${token}`, "ngrok-skip-browser-warning": "true" },
       });
       const data = await res.json();
@@ -32,7 +32,7 @@ export default function AdminProducts() {
   const handleDelete = async (id) => {
     if (!window.confirm("⚠️ هل أنت متأكد من حذف هذا المنتج نهائياً؟")) return;
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

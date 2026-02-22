@@ -27,7 +27,7 @@ export default function AdminEditProduct() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("http://127.0.0.1:8000/api/categories");
+        const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories");
         const data = await res.json();
         if (data.status === "success" || data.success) {
           setCategories(data.data);
@@ -43,7 +43,7 @@ export default function AdminEditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+        const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -98,7 +98,7 @@ export default function AdminEditProduct() {
     selectedCategories.forEach(catId => formData.append("categories[]", catId));
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,

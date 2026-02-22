@@ -24,7 +24,7 @@ export default function AdminCreateUser() {
 
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/admin/users", {
+            const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/admin/users", {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -27,7 +27,7 @@ export default function AdminCreateCategory() {
         formData.append("sku", "SKU-" + Date.now());
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/categories", {
+            const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories", {
               
                 method: "POST",
                 headers: {

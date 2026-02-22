@@ -22,7 +22,7 @@ const LoginPage = () => {
         setLoading(true);
         setError("");
         try {
-            const res = await axios.post("http://127.0.0.1:8000/api/login", formData);
+            const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/login", formData);
             
             // استخراج البيانات من استجابة Laravel
             const { id, role, name } = res.data.user; 

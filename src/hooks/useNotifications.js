@@ -33,7 +33,7 @@ const useNotifications = (user) => {
             wssPort: 8080,
             forceTLS: false,
             enabledTransports: ['ws', 'wss'],
-            authEndpoint: 'http://localhost:8000/broadcasting/auth', 
+            authEndpoint: 'https://marisa-nonretired-willis.ngrok-free.dev/broadcasting/auth', 
             auth: {
                 headers: {
                     Authorization: `Bearer ${token}`,

@@ -11,7 +11,7 @@ const DetailsOrderPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`http://127.0.0.1:8000/api/orders/${id}`, {
+    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Accept": "application/json",

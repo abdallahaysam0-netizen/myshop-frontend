@@ -6,7 +6,7 @@ const CategoriesPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/categories")
+    fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories")
       .then(res => res.json())
       .then(data => {
         setCategories(data.data);

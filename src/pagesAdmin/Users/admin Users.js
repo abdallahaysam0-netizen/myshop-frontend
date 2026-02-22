@@ -17,7 +17,7 @@ export default function AdminUsers() {
 
     try {
       setLoading(true);
-      const res = await fetch("http://127.0.0.1:8000/api/users", {
+      const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/users", {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -44,7 +44,7 @@ export default function AdminUsers() {
     if (!window.confirm("⚠️ هل أنت متأكد من حذف هذا الحساب نهائياً؟")) return;
 
     try {
-      const res = await fetch(`http://127.0.0.1:8000/api/users/${id}`, {
+      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/users/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

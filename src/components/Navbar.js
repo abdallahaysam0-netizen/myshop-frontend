@@ -18,7 +18,7 @@ const Navbar = () => {
     if (!token) return;
 
     try {
-        const res = await axios.get("http://localhost:8000/api/notifications", {
+        const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/notifications", {
             headers: { Authorization: `Bearer ${token}` }
         });
         setNotifications(res.data); 
@@ -51,7 +51,7 @@ const Navbar = () => {
       const adminToken = localStorage.getItem("admin_token");
 
       if (customerToken) {
-        await fetch("http://localhost:8000/api/customer/logout", {
+        await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/customer/logout", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const Navbar = () => {
       }
 
       if (adminToken) {
-        await fetch("http://localhost:8000/api/admin/logout", {
+        await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/admin/logout", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

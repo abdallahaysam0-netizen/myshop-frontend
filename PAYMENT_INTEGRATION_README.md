@@ -69,7 +69,7 @@
 
 ## كيفية الاختبار:
 
-1. **تأكد من تشغيل Laravel backend** على `http://127.0.0.1:8000`
+1. **تأكد من تشغيل Laravel backend** على `https://marisa-nonretired-willis.ngrok-free.dev`
 2. **تأكد من تشغيل React frontend** على `http://localhost:3000`
 3. **اختبر كل طريقة دفع**:
    - COD: يجب أن ينتقل لصفحة `/order-success`

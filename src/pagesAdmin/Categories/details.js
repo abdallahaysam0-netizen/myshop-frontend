@@ -7,7 +7,7 @@ export default function AdminCategoriesDetails() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/categories/${id}`)
+        fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`)
             .then(res => res.json())
             .then(data => {
                 setCategory(data.data);

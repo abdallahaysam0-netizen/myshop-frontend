@@ -18,7 +18,7 @@ export default function AdminOrders() {
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://127.0.0.1:8000/api/orders", {
+      const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/orders", {
         headers: { 
             Authorization: `Bearer ${token}`,
             "Accept": "application/json",
@@ -47,7 +47,7 @@ export default function AdminOrders() {
 
     try {
       const res = await axios.patch(
-        `http://127.0.0.1:8000/api/orders/${orderId}/status`,
+        `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${orderId}/status`,
         { status: value },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -64,7 +64,7 @@ export default function AdminOrders() {
     setIsProcessing(true);
     try {
       const res = await axios.post(
-        `http://127.0.0.1:8000/api/orders/${orderId}/cancel`,
+        `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${orderId}/cancel`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

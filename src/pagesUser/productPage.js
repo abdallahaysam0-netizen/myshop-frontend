@@ -24,8 +24,8 @@ const ProductsPage = () => {
   useEffect(() => {
     setLoading(true);
     const url = search
-      ? `http://127.0.0.1:8000/api/products/search?q=${search}&page=${currentPage}`
-      : `http://127.0.0.1:8000/api/products?page=${currentPage}`;
+      ? `https://marisa-nonretired-willis.ngrok-free.dev/api/products/search?q=${search}&page=${currentPage}`
+      : `https://marisa-nonretired-willis.ngrok-free.dev/api/products?page=${currentPage}`;
 
     fetch(url)
       .then((res) => res.json())
@@ -36,7 +36,7 @@ const ProductsPage = () => {
           image: product.image
             ? product.image.startsWith("http")
               ? product.image
-              : `http://127.0.0.1:8000/storage/${product.image}`
+              : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${product.image}`
             : null,
         }));
         setProducts(productsWithImages);

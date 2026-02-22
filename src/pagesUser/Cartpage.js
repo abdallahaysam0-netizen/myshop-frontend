@@ -12,7 +12,7 @@ const CartPage = () => {
   const cartFetch = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://127.0.0.1:8000/api/cart", {
+      const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/cart", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ const CartPage = () => {
 
   const updateQuantity = async (item, newQty) => {
     if (newQty < 1) return;
-    const res = await fetch(`http://127.0.0.1:8000/api/cart/${item.id}`, {
+    const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/cart/${item.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const CartPage = () => {
   };
 
   const removeItem = async (item) => {
-    const res = await fetch(`http://127.0.0.1:8000/api/cart/${item.id}`, {
+    const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/cart/${item.id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`
@@ -103,7 +103,7 @@ const CartPage = () => {
                   {/* صورة المنتج */}
                   <div className="w-24 h-24 rounded-2xl overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10">
                     <img 
-                      src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `http://127.0.0.1:8000/storage/${item.product.image}`) : "/placeholder.png"} 
+                      src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${item.product.image}`) : "/placeholder.png"} 
                       alt={item.product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
