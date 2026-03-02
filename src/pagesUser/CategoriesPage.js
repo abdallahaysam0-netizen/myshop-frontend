@@ -35,17 +35,17 @@ const CategoriesPage = () => {
   // --- واجهة حالة عدم وجود بيانات ---
   if (categories.length === 0) {
     return (
-      <div className="text-center py-20 bg-zinc-900/20 rounded-3xl border border-dashed border-zinc-800">
+      <div className="min-h-screen bg-[#050505] text-white pt-24 md:pt-32 pb-20 px-6 font-sans text-center rounded-3xl border border-dashed border-zinc-800" dir="rtl">
         <p className="text-gray-500 text-lg">لا توجد أقسام متاحة حالياً.</p>
       </div>
     );
   }
 
   return (
-    <div className=" ml-40 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 transition-all duration-500 ease-in-out">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 transition-all duration-500 ease-in-out">
       {categories.map((cat, index) => (
-        <div 
-          key={cat.id} 
+        <div
+          key={cat.id}
           className="transform transition-all duration-500"
           style={{ transitionDelay: `${index * 100}ms` }} // تأثير ظهور تتابعي بسيط
         >

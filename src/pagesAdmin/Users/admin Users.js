@@ -62,8 +62,8 @@ export default function AdminUsers() {
 
   // دالة للحصول على ستايل الرتبة
   const getRoleStyle = (type) => {
-    return type?.toLowerCase() === 'admin' 
-      ? 'text-blue-400 bg-blue-500/10 border-blue-500/20' 
+    return type?.toLowerCase() === 'admin'
+      ? 'text-blue-400 bg-blue-500/10 border-blue-500/20'
       : 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
   };
 
@@ -71,7 +71,7 @@ export default function AdminUsers() {
     <div className="flex min-h-screen bg-[#050505] text-white">
       <Sidebar />
 
-      <main className="flex-1 p-8 lg:p-12 overflow-y-auto relative">
+      <main className="flex-1 p-4 md:p-8 lg:p-12 pt-20 lg:pt-12 overflow-y-auto relative">
         {/* خلفية ضوئية */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full -z-10" />
 
@@ -81,7 +81,7 @@ export default function AdminUsers() {
             <div>
               <h1 className="text-4xl font-black tracking-tight mb-2">إدارة المستخدمين</h1>
               <div className="flex items-center gap-4 text-gray-500 text-sm font-medium">
-                 <span className="flex items-center gap-1"><Users size={16}/> إجمالي المسجلين: {users.length}</span>
+                <span className="flex items-center gap-1"><Users size={16} /> إجمالي المسجلين: {users.length}</span>
               </div>
             </div>
 
@@ -96,13 +96,13 @@ export default function AdminUsers() {
 
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-               {[1,2,3].map(n => <div key={n} className="h-64 bg-zinc-900/40 rounded-[2.5rem] animate-pulse border border-white/5" />)}
+              {[1, 2, 3].map(n => <div key={n} className="h-64 bg-zinc-900/40 rounded-[2.5rem] animate-pulse border border-white/5" />)}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {users.map((user) => (
                 <div key={user.id} className="group relative bg-zinc-900/40 border border-white/5 p-8 rounded-[2.5rem] backdrop-blur-md hover:bg-zinc-900/60 transition-all hover:border-blue-500/20 shadow-xl overflow-hidden">
-                  
+
                   {/* الديكور الخلفي للكارت */}
                   <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors" />
 
@@ -112,7 +112,7 @@ export default function AdminUsers() {
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center text-2xl font-black text-white shadow-lg group-hover:scale-110 transition-transform duration-500">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
-                      
+
                       {/* شارة الدور */}
                       <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border ${getRoleStyle(user.type)}`}>
                         {user.type || 'User'}
@@ -130,10 +130,10 @@ export default function AdminUsers() {
                     {/* الإجراءات */}
                     <div className="flex items-center justify-between pt-6 border-t border-white/5">
                       <div className="flex items-center gap-2 text-[10px] text-gray-600 font-bold uppercase tracking-tighter">
-                        <Shield size={14} /> 
+                        <Shield size={14} />
                         {user.type === 'admin' ? 'Full Access' : 'Limited Access'}
                       </div>
-                      
+
                       <button
                         onClick={() => handleDelete(user.id)}
                         className="p-3 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-xl transition-all shadow-sm"
@@ -150,8 +150,8 @@ export default function AdminUsers() {
 
           {!loading && users.length === 0 && (
             <div className="text-center py-20 bg-zinc-900/20 rounded-[3rem] border border-dashed border-zinc-800">
-                <Users size={48} className="mx-auto mb-4 text-zinc-800" />
-                <p className="text-gray-500 font-medium">لا يوجد مستخدمين مسجلين حالياً</p>
+              <Users size={48} className="mx-auto mb-4 text-zinc-800" />
+              <p className="text-gray-500 font-medium">لا يوجد مستخدمين مسجلين حالياً</p>
             </div>
           )}
         </div>

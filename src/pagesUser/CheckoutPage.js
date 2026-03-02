@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  CreditCard, Truck, MapPin, User, Phone, X, 
-  AlertCircle, CheckCircle2, Loader2, Smartphone, Hash, Globe, Home 
+import {
+  CreditCard, Truck, MapPin, User, Phone, X,
+  AlertCircle, CheckCircle2, Loader2, Smartphone, Hash, Globe, Home
 } from "lucide-react";
 
 // ✅ الرابط الأساسي الخاص بك (تأكد من استخدامه في كل طلبات الـ API)
@@ -11,7 +11,7 @@ const API_BASE_URL = "https://marisa-nonretired-willis.ngrok-free.dev";
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
-  
+
   const [formData, setFormData] = useState({
     shipping_name: "",
     shipping_address: "",
@@ -20,10 +20,10 @@ const CheckoutPage = () => {
     shipping_country: "Egypt",
     shipping_zipcode: "",
     shipping_phone: "",
-    payment_method: "cod", 
+    payment_method: "cod",
     notes: ""
   });
-  
+
   const [loading, setLoading] = useState(false);
   const [iframeUrl, setIframeUrl] = useState(null);
   const [fawryCode, setFawryCode] = useState(null);
@@ -41,89 +41,89 @@ const CheckoutPage = () => {
 
   const submitOrder = async () => {
     if (!token) {
-        setErrorDetails({ message: "الرجاء تسجيل الدخول أولاً لإتمام الطلب" });
-        return;
+      setErrorDetails({ message: "الرجاء تسجيل الدخول أولاً لإتمام الطلب" });
+      return;
     }
 
     setLoading(true);
     setErrorDetails(null);
 
     try {
-        const res = await fetch(`${API_BASE_URL}/api/checkout`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-                "Authorization": `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "true" 
-            },
-            body: JSON.stringify(formData)
-        });
+      const res = await fetch(`${API_BASE_URL}/api/checkout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true"
+        },
+        body: JSON.stringify(formData)
+      });
 
-        const data = await res.json();
-        console.log("الرد القادم من السيرفر:", data);
+      const data = await res.json();
+      console.log("الرد القادم من السيرفر:", data);
 
-        // 1. معالجة أخطاء التحقق (Validation)
-        if (res.status === 422) {
-            const validationErrors = data.errors 
-                ? Object.values(data.errors).flat().join(' - ') 
-                : data.message;
-            setErrorDetails({ message: `تأكد من البيانات: ${validationErrors}` });
-            setLoading(false);
-            return;
-        }
-
-        if (!res.ok || !data.status) {
-            setErrorDetails({ message: data.message || "فشل إتمام الطلب" });
-            setLoading(false);
-            return;
-        }
-
+      // 1. معالجة أخطاء التحقق (Validation)
+      if (res.status === 422) {
+        const validationErrors = data.errors
+          ? Object.values(data.errors).flat().join(' - ')
+          : data.message;
+        setErrorDetails({ message: `تأكد من البيانات: ${validationErrors}` });
         setLoading(false);
+        return;
+      }
 
-        // 2. حالة الدفع عند الاستلام
-        if (formData.payment_method === "cod") {
-            navigate("/order?status=success");
-            return;
+      if (!res.ok || !data.status) {
+        setErrorDetails({ message: data.message || "فشل إتمام الطلب" });
+        setLoading(false);
+        return;
+      }
+
+      setLoading(false);
+
+      // 2. حالة الدفع عند الاستلام
+      if (formData.payment_method === "cod") {
+        navigate("/order?status=success");
+        return;
+      }
+
+      // 3. حالة الدفع الإلكتروني (Paymob)
+      if (data.payment_required) {
+        // ✅ الحل السحري: نتحقق إذا كانت البيانات داخل 'data' أو في الرد مباشرة
+        const paymentInfo = data.data || data;
+
+        if (formData.payment_method === "credit_card") {
+          if (paymentInfo.iframe_url) {
+            setIframeUrl(paymentInfo.iframe_url);
+          } else {
+            setErrorDetails({ message: "تعذر الحصول على رابط الدفع بالبطاقة" });
+          }
         }
-
-        // 3. حالة الدفع الإلكتروني (Paymob)
-        if (data.payment_required) {
-            // ✅ الحل السحري: نتحقق إذا كانت البيانات داخل 'data' أو في الرد مباشرة
-            const paymentInfo = data.data || data; 
-
-            if (formData.payment_method === "credit_card") {
-                if (paymentInfo.iframe_url) {
-                    setIframeUrl(paymentInfo.iframe_url);
-                } else {
-                    setErrorDetails({ message: "تعذر الحصول على رابط الدفع بالبطاقة" });
-                }
-            } 
-            else if (formData.payment_method === "fawry") {
-                const fCode = paymentInfo.bill_reference || paymentInfo.payment_reference;
-                if (fCode) {
-                    setFawryCode(fCode);
-                } else {
-                    setErrorDetails({ message: "تعذر الحصول على كود فوري" });
-                }
-            } 
-            else if (formData.payment_method === "wallet") {
-                if (paymentInfo.redirect_url) {
-                    window.location.href = paymentInfo.redirect_url;
-                } else {
-                    setErrorDetails({ message: "فشل الحصول على رابط المحفظة" });
-                }
-            }
+        else if (formData.payment_method === "fawry") {
+          const fCode = paymentInfo.bill_reference || paymentInfo.payment_reference;
+          if (fCode) {
+            setFawryCode(fCode);
+          } else {
+            setErrorDetails({ message: "تعذر الحصول على كود فوري" });
+          }
         }
-        
+        else if (formData.payment_method === "wallet") {
+          if (paymentInfo.redirect_url) {
+            window.location.href = paymentInfo.redirect_url;
+          } else {
+            setErrorDetails({ message: "فشل الحصول على رابط المحفظة" });
+          }
+        }
+      }
+
     } catch (err) {
-        setLoading(false);
-        setErrorDetails({ message: "تعذر الاتصال بالسيرفر. تأكد من تشغيل ngrok والضغط على Visit Site." });
+      setLoading(false);
+      setErrorDetails({ message: "تعذر الاتصال بالسيرفر. تأكد من تشغيل ngrok والضغط على Visit Site." });
     }
-};
+  };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-32 pb-20 px-6 font-sans">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 md:pt-32 pb-20 px-4 md:px-6 font-sans">
       <div className="container mx-auto max-w-4xl">
         <div className="flex items-center gap-4 mb-10 border-b border-white/5 pb-6">
           <div className="p-3 bg-blue-600 rounded-2xl shadow-[0_0_20px_rgba(37,99,235,0.3)]">
@@ -135,7 +135,7 @@ const CheckoutPage = () => {
           </div>
         </div>
 
-        <div className="bg-zinc-900/40 border border-white/5 p-8 rounded-[2.5rem] backdrop-blur-md">
+        <div className="bg-zinc-900/40 border border-white/5 p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] backdrop-blur-md">
           {errorDetails && (
             <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl mb-8 animate-pulse">
               <AlertCircle size={20} />
@@ -194,30 +194,57 @@ const CheckoutPage = () => {
       {fawryCode && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
           <div className="bg-zinc-900 border border-white/10 p-8 rounded-[2rem] max-w-md w-full text-center">
-             <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle2 size={40} />
-             </div>
-             <h2 className="text-2xl font-bold mb-2">طلبك في الانتظار!</h2>
-             <p className="text-gray-400 mb-6 text-sm">استخدم الكود التالي للدفع في أي منفذ فوري:</p>
-             <div className="bg-white text-black py-4 rounded-xl text-4xl font-black tracking-[0.2em] mb-6">
-                {fawryCode}
-             </div>
-             <button onClick={() => navigate("/order")} className="w-full bg-blue-600 py-4 rounded-xl font-bold">متابعة طلباتي</button>
+            <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 size={40} />
+            </div>
+            <h2 className="text-2xl font-bold mb-2">طلبك في الانتظار!</h2>
+            <p className="text-gray-400 mb-6 text-sm">استخدم الكود التالي للدفع في أي منفذ فوري:</p>
+            <div className="bg-white text-black py-4 rounded-xl text-4xl font-black tracking-[0.2em] mb-6">
+              {fawryCode}
+            </div>
+            <button onClick={() => navigate("/order")} className="w-full bg-blue-600 py-4 rounded-xl font-bold">متابعة طلباتي</button>
           </div>
         </div>
       )}
 
-      {/* مودال الـ Iframe للبطاقة البنكية */}
       {iframeUrl && (
-         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90">
-            <div className="relative bg-white w-full max-w-4xl h-[90vh] rounded-[2rem] overflow-hidden flex flex-col shadow-2xl">
-                <div className="p-4 flex justify-between items-center bg-zinc-100 text-black border-b">
-                   <span className="font-bold flex items-center gap-2 text-blue-600"><CreditCard size={18} /> بوابة دفع بي موب الآمنة</span>
-                   <X className="cursor-pointer hover:text-red-500 transition-colors" size={24} onClick={() => setIframeUrl(null)} />
-                </div>
-                <iframe src={iframeUrl} className="w-full flex-1" title="Paymob Payment" />
+        <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4 overflow-hidden">
+          {/* Container */}
+          <div className="relative bg-white w-full h-[92vh] sm:h-[90vh] max-w-5xl rounded-t-[2rem] sm:rounded-[1.5rem] flex flex-col shadow-2xl transition-all duration-300 animate-in fade-in slide-in-from-bottom-10 sm:zoom-in-95">
+
+            {/* Header - Fixed Height */}
+            <div className="h-14 sm:h-16 px-4 flex justify-between items-center bg-white text-zinc-800 border-b border-zinc-100 flex-shrink-0 rounded-t-[2rem] sm:rounded-t-[1.5rem]">
+              <div className="flex items-center gap-2 text-blue-600">
+                <CreditCard size={20} className="hidden xs:block" />
+                <span className="text-sm md:text-base font-bold truncate">بوابة الدفع الآمنة (Paymob)</span>
+              </div>
+
+              <button
+                onClick={() => setIframeUrl(null)}
+                className="p-2 hover:bg-zinc-100 rounded-full transition-all group active:scale-95"
+                aria-label="إغلاق"
+              >
+                <X className="text-zinc-500 group-hover:text-red-500" size={24} />
+              </button>
             </div>
-         </div>
+
+            {/* Iframe Wrapper - Responsive Height */}
+            <div className="flex-1 w-full bg-zinc-50 relative">
+              {/* Loading Spinner (اختياري لتحسين التجربة) */}
+              <div className="absolute inset-0 flex items-center justify-center -z-10">
+                <div className="w-8 h-8 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
+              </div>
+
+              <iframe
+                src={iframeUrl}
+                className="w-full h-full border-none"
+                title="Paymob Payment"
+                allow="payment; fullscreen"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
       )}
 
       <style>{`

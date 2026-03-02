@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../components/sidebar";
-import { 
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, 
-  CartesianGrid, Cell 
+import {
+    BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
+    CartesianGrid, Cell
 } from "recharts";
 import { DollarSign, ShoppingBag, Box, TrendingUp, Loader2 } from "lucide-react";
 
@@ -26,20 +26,20 @@ export default function AdminDashboard() {
                 "ngrok-skip-browser-warning": "true",
             }
         })
-        .then(async res => {
-            const data = await res.json();
-            setStats({
-                sales: data.sales || 0,
-                orders: data.orders || 0,
-                products: data.products || 0,
+            .then(async res => {
+                const data = await res.json();
+                setStats({
+                    sales: data.sales || 0,
+                    orders: data.orders || 0,
+                    products: data.products || 0,
+                });
+                setChartData(data.monthlySales || []);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Error fetching stats:", err);
+                setLoading(false);
             });
-            setChartData(data.monthlySales || []);
-            setLoading(false);
-        })
-        .catch(err => {
-            console.error("Error fetching stats:", err);
-            setLoading(false);
-        });
     }, []);
 
     return (
@@ -48,7 +48,7 @@ export default function AdminDashboard() {
             <Sidebar />
 
             {/* المحتوى الرئيسي */}
-            <main className="flex-1 p-8 lg:p-12 overflow-y-auto relative">
+            <main className="flex-1 p-4 md:p-8 lg:p-12 pt-20 lg:pt-12 overflow-y-auto relative">
                 {/* خلفية ضوئية ديكورية */}
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full -z-10" />
 
@@ -66,25 +66,25 @@ export default function AdminDashboard() {
 
                 {/* البطاقات الإحصائية (Top Stats) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    <StatCard 
-                        title="إجمالي المبيعات" 
-                        value={`${stats.sales} ج.م`} 
-                        icon={<DollarSign size={24} />} 
-                        color="text-blue-500" 
+                    <StatCard
+                        title="إجمالي المبيعات"
+                        value={`${stats.sales} ج.م`}
+                        icon={<DollarSign size={24} />}
+                        color="text-blue-500"
                         bgColor="bg-blue-500/10"
                     />
-                    <StatCard 
-                        title="إجمالي الطلبات" 
-                        value={stats.orders} 
-                        icon={<ShoppingBag size={24} />} 
-                        color="text-purple-500" 
+                    <StatCard
+                        title="إجمالي الطلبات"
+                        value={stats.orders}
+                        icon={<ShoppingBag size={24} />}
+                        color="text-purple-500"
                         bgColor="bg-purple-500/10"
                     />
-                    <StatCard 
-                        title="إجمالي المنتجات" 
-                        value={stats.products} 
-                        icon={<Box size={24} />} 
-                        color="text-amber-500" 
+                    <StatCard
+                        title="إجمالي المنتجات"
+                        value={stats.products}
+                        icon={<Box size={24} />}
+                        color="text-amber-500"
                         bgColor="bg-amber-500/10"
                     />
                 </div>
@@ -108,23 +108,23 @@ export default function AdminDashboard() {
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                                    <XAxis 
-                                        dataKey="name" 
-                                        axisLine={false} 
-                                        tickLine={false} 
+                                    <XAxis
+                                        dataKey="name"
+                                        axisLine={false}
+                                        tickLine={false}
                                         tick={{ fill: '#71717a', fontSize: 12, fontWeight: 600 }}
                                         dy={10}
                                     />
-                                    <YAxis 
-                                        axisLine={false} 
-                                        tickLine={false} 
-                                        tick={{ fill: '#71717a', fontSize: 12 }} 
+                                    <YAxis
+                                        axisLine={false}
+                                        tickLine={false}
+                                        tick={{ fill: '#71717a', fontSize: 12 }}
                                     />
-                                    <Tooltip 
+                                    <Tooltip
                                         cursor={{ fill: 'rgba(255,255,255,0.02)' }}
-                                        contentStyle={{ 
-                                            backgroundColor: '#18181b', 
-                                            border: '1px solid rgba(255,255,255,0.1)', 
+                                        contentStyle={{
+                                            backgroundColor: '#18181b',
+                                            border: '1px solid rgba(255,255,255,0.1)',
                                             borderRadius: '16px',
                                             boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
                                         }}

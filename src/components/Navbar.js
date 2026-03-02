@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/userContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Bell, LogOut, } from "lucide-react";
+import { Bell, LogOut, Menu, X } from "lucide-react";
 import axios from "axios";
 
 const Navbar = () => {
@@ -9,6 +9,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // دالة لمسح الإشعارات
   const clearNotifications = () => setNotifications([]);
@@ -18,15 +19,15 @@ const Navbar = () => {
     if (!token) return;
 
     try {
-        const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/notifications", {
-            headers: { 
-              Authorization: `Bearer ${token}`,
-              'ngrok-skip-browser-warning': 'true'
-            }
-        });
-        setNotifications(res.data); 
+      const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/notifications", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'ngrok-skip-browser-warning': 'true'
+        }
+      });
+      setNotifications(res.data);
     } catch (e) {
-        console.error("خطأ في جلب الإشعارات:", e);
+      console.error("خطأ في جلب الإشعارات:", e);
     }
   };
 
@@ -77,7 +78,7 @@ const Navbar = () => {
       sessionStorage.clear();
       setUserName(null);
       setUserRole(null);
-      setNotifications([]); 
+      setNotifications([]);
       navigate("/customer/login");
     } catch (error) {
       console.error("Logout Error:", error);
@@ -94,10 +95,10 @@ const Navbar = () => {
           My<span className="text-blue-500">Shop</span>
         </Link>
 
-        {/* Links & Action Buttons */}
+        {/* Desktop Links & Action Buttons */}
         <div className="flex items-center gap-2 md:gap-8">
 
-          {/* Links Section */}
+          {/* Links Section (Desktop Only) */}
           <div className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
             <Link to="/" className="hover:text-white transition-colors">المنزل</Link>
             <Link to="/products" className="hover:text-white transition-colors">المنتجات</Link>
@@ -168,19 +169,19 @@ const Navbar = () => {
             {userRole === 'admin' && (
               <Link
                 to="/admin"
-                className="px-4 py-1.5 rounded-full border border-blue-500/50 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-all text-xs font-bold uppercase flex items-center gap-2"
+                className="hidden md:flex px-4 py-1.5 rounded-full border border-blue-500/50 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white transition-all text-xs font-bold uppercase items-center gap-2"
               >
                 الادمن
               </Link>
             )}
 
             {!userName ? (
-              <div className="flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-3">
                 <Link to="/customer/login" className="text-sm font-medium text-zinc-400 hover:text-white transition">تسجيل الدخول</Link>
                 <Link to="/customer/register" className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl shadow-lg transition-all active:scale-95">إنشاء حساب</Link>
               </div>
             ) : (
-              <div className="flex items-center gap-4 border-l border-zinc-800 pl-4">
+              <div className="hidden md:flex items-center gap-4 border-l border-zinc-800 pl-4">
                 <div className="flex flex-col items-end">
                   <span className="text-[10px] text-zinc-500 leading-none mb-1">مرحباً بك</span>
                   <span className="text-sm text-blue-400 font-bold">{userName}</span>
@@ -191,6 +192,85 @@ const Navbar = () => {
                   title="تسجيل الخروج"
                 >
                   <LogOut size={18} className="text-zinc-400 group-hover:text-red-500 transition" />
+                </button>
+              </div>
+            )}
+
+            {/* Hamburger Button (Mobile Only) */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Drawer */}
+      <div className={`fixed inset-0 z-40 md:hidden transition-transform duration-300 transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
+        {/* Backdrop */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)}></div>
+
+        {/* Drawer Content */}
+        <div className="absolute top-0 right-0 w-3/4 max-w-sm h-full bg-[#09090b] border-l border-zinc-800 p-6 flex flex-col gap-8 shadow-2xl">
+          <div className="flex justify-between items-center border-b border-zinc-800 pb-4">
+            <Link to="/" className="text-xl font-black text-white" onClick={() => setIsMenuOpen(false)}>
+              My<span className="text-blue-500">Shop</span>
+            </Link>
+            <button onClick={() => setIsMenuOpen(false)} className="text-zinc-400">
+              <X size={24} />
+            </button>
+          </div>
+
+          <div className="flex flex-col gap-6 text-lg font-medium text-zinc-300">
+            <Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-blue-500 transition-colors">المنزل</Link>
+            <Link to="/products" onClick={() => setIsMenuOpen(false)} className="hover:text-blue-500 transition-colors">المنتجات</Link>
+
+            {userName && (
+              <>
+                <Link to="/cart" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-between hover:text-blue-500 transition-colors">
+                  <span>السلة 🛒</span>
+                  <span className="bg-blue-600/20 text-blue-500 text-xs px-2 py-1 rounded-full border border-blue-500/30">0</span>
+                </Link>
+                <Link to="/order" onClick={() => setIsMenuOpen(false)} className="hover:text-blue-500 transition-colors">طلباتي 📦</Link>
+              </>
+            )}
+
+            <div className="h-[1px] bg-zinc-800 w-full my-4"></div>
+
+            {userRole === 'admin' && (
+              <Link
+                to="/admin"
+                onClick={() => setIsMenuOpen(false)}
+                className="w-full py-3 bg-blue-500/10 text-blue-400 border border-blue-500/30 rounded-xl text-center font-bold"
+              >
+                لوحة التحكم (الأدمن)
+              </Link>
+            )}
+
+            {!userName ? (
+              <div className="flex flex-col gap-4">
+                <Link to="/customer/login" onClick={() => setIsMenuOpen(false)} className="w-full py-3 border border-zinc-800 text-center rounded-xl text-zinc-400">تسجيل الدخول</Link>
+                <Link to="/customer/register" onClick={() => setIsMenuOpen(false)} className="w-full py-3 bg-blue-600 text-white text-center rounded-xl font-bold shadow-lg shadow-blue-600/20">إنشاء حساب</Link>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-6">
+                <div className="flex items-center gap-3 bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800">
+                  <div className="w-10 h-10 bg-blue-600/20 rounded-full flex items-center justify-center text-blue-500 font-bold">
+                    {userName.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-zinc-500">مرحباً بك</span>
+                    <span className="text-sm text-white font-bold">{userName}</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => { handleLogout(); setIsMenuOpen(false); }}
+                  className="w-full py-4 bg-red-950/20 text-red-500 border border-red-900/30 rounded-2xl flex items-center justify-center gap-3 font-bold"
+                >
+                  <LogOut size={20} />
+                  تسجيل الخروج
                 </button>
               </div>
             )}

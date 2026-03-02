@@ -46,7 +46,7 @@ export default function AdminCreateProduct() {
         formData.append("image", image);
         formData.append("slug", slug || name.replace(/\s+/g, "-").toLowerCase());
         formData.append("sku", "SKU-" + Date.now());
-        
+
         selectedCategories.forEach((catId) => {
             formData.append("categories[]", catId);
         });
@@ -54,7 +54,8 @@ export default function AdminCreateProduct() {
         try {
             const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/products", {
                 method: "POST",
-                headers: { Authorization: `Bearer ${token}`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
                     "ngrok-skip-browser-warning": "true"
                 },
                 body: formData,
@@ -85,8 +86,8 @@ export default function AdminCreateProduct() {
     return (
         <div className="flex bg-black min-h-screen text-zinc-100 font-sans">
             <Sidebar />
-            
-            <main className="flex-1 p-8 overflow-y-auto">
+
+            <main className="flex-1 p-4 md:p-8 lg:p-12 pt-20 lg:pt-12 overflow-y-auto">
                 <div className="max-w-4xl mx-auto bg-zinc-900 border border-zinc-800 p-8 rounded-3xl shadow-2xl">
                     <div className="mb-10 text-right">
                         <h2 className="text-3xl font-black text-orange-500">إضافة منتج جديد</h2>
@@ -94,7 +95,7 @@ export default function AdminCreateProduct() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-8 text-right" dir="rtl">
-                        
+
                         {/* Image Upload Area */}
                         <div className="md:col-span-2 flex flex-col items-center p-8 border-2 border-dashed border-zinc-700 rounded-2xl hover:border-orange-500 transition-all bg-zinc-800/30">
                             {image ? (
@@ -120,58 +121,58 @@ export default function AdminCreateProduct() {
                         {/* Name Field */}
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-bold text-zinc-400 mr-2">اسم المنتج</label>
-                            <input 
-                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white" 
-                                placeholder="أدخل اسم المنتج" 
-                                value={name} 
-                                onChange={(e) => setName(e.target.value)} 
+                            <input
+                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white"
+                                placeholder="أدخل اسم المنتج"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
                             />
                         </div>
 
                         {/* Price Field */}
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-bold text-zinc-400 mr-2">السعر الأصلي (ج.م)</label>
-                            <input 
+                            <input
                                 type="number"
-                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white font-sans" 
-                                placeholder="0.00" 
-                                value={price} 
-                                onChange={(e) => setPrice(e.target.value)} 
+                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white font-sans"
+                                placeholder="0.00"
+                                value={price}
+                                onChange={(e) => setPrice(e.target.value)}
                             />
                         </div>
 
                         {/* Discount Price Field */}
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-bold text-orange-400 mr-2">قيمة الخصم (ج.م)</label>
-                            <input 
+                            <input
                                 type="number"
-                                className="bg-zinc-800 border border-orange-500/30 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-orange-500 font-bold font-sans" 
-                                placeholder="ادخل المبلغ المراد خصمه" 
-                                value={discountPrice} 
-                                onChange={(e) => setDiscountPrice(e.target.value)} 
+                                className="bg-zinc-800 border border-orange-500/30 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-orange-500 font-bold font-sans"
+                                placeholder="ادخل المبلغ المراد خصمه"
+                                value={discountPrice}
+                                onChange={(e) => setDiscountPrice(e.target.value)}
                             />
                         </div>
 
                         {/* Stock Field */}
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-bold text-zinc-400 mr-2">المخزون المتوفر</label>
-                            <input 
+                            <input
                                 type="number"
-                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white font-sans" 
-                                placeholder="0" 
-                                value={stock} 
-                                onChange={(e) => setStock(e.target.value)} 
+                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white font-sans"
+                                placeholder="0"
+                                value={stock}
+                                onChange={(e) => setStock(e.target.value)}
                             />
                         </div>
 
                         {/* Slug Field */}
                         <div className="flex flex-col gap-2 md:col-span-2">
                             <label className="text-sm font-bold text-zinc-400 mr-2">الرابط البديل (Slug)</label>
-                            <input 
-                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-zinc-400 font-sans" 
-                                placeholder="product-url-example" 
-                                value={slug} 
-                                onChange={(e) => setSlug(e.target.value)} 
+                            <input
+                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-zinc-400 font-sans"
+                                placeholder="product-url-example"
+                                value={slug}
+                                onChange={(e) => setSlug(e.target.value)}
                             />
                         </div>
 
@@ -199,12 +200,12 @@ export default function AdminCreateProduct() {
                         {/* Description Field */}
                         <div className="flex flex-col gap-2 md:col-span-2">
                             <label className="text-sm font-bold text-zinc-400 mr-2">وصف المنتج</label>
-                            <textarea 
-                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white resize-none" 
+                            <textarea
+                                className="bg-zinc-800 border border-zinc-700 p-4 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-white resize-none"
                                 rows="4"
-                                placeholder="اكتب تفاصيل المنتج هنا..." 
-                                value={description} 
-                                onChange={(e) => setDescription(e.target.value)} 
+                                placeholder="اكتب تفاصيل المنتج هنا..."
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                             />
                         </div>
 

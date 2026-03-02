@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar";
 import { Link } from "react-router-dom";
-import { 
-  Layers, 
-  Plus, 
-  Pencil, 
-  Trash2, 
-  Eye, 
-  FolderTree, 
-  Tag, 
-  Loader2, 
+import {
+  Layers,
+  Plus,
+  Pencil,
+  Trash2,
+  Eye,
+  FolderTree,
+  Tag,
+  Loader2,
   ChevronRight,
   Info
 } from "lucide-react";
@@ -72,7 +72,7 @@ export default function AdminCategory() {
     <div className="flex min-h-screen bg-[#050505] text-white">
       <Sidebar />
 
-      <main className="flex-1 p-8 lg:p-12 overflow-y-auto relative">
+      <main className="flex-1 p-4 md:p-8 lg:p-12 pt-20 lg:pt-12 overflow-y-auto relative">
         {/* تأثيرات إضاءة خلفية */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full -z-10" />
 
@@ -83,7 +83,7 @@ export default function AdminCategory() {
               <h1 className="text-4xl font-black tracking-tight mb-2">إدارة الفئات</h1>
               <p className="text-gray-500 font-medium">نظم منتجاتك في أقسام واضحة ومنظمة</p>
             </div>
-            
+
             <Link
               to="/admin/categories/create"
               className="group bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold transition-all flex items-center gap-2 shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)] active:scale-95"
@@ -102,7 +102,7 @@ export default function AdminCategory() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {categories.map((category) => (
                 <div key={category.id} className="group relative bg-zinc-900/40 border border-white/5 p-8 rounded-[2.5rem] backdrop-blur-md transition-all hover:bg-zinc-900/60 hover:border-blue-500/20 shadow-xl flex flex-col h-full overflow-hidden">
-                  
+
                   {/* أيقونة ديكورية في الخلفية */}
                   <Layers className="absolute -right-4 -top-4 w-24 h-24 text-white/5 -rotate-12 group-hover:text-blue-500/10 transition-colors" />
 
@@ -111,11 +111,10 @@ export default function AdminCategory() {
                       <div className="p-3 bg-blue-600/10 rounded-2xl text-blue-500 border border-blue-500/20">
                         <FolderTree size={24} />
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border ${
-                        category.parent 
-                        ? 'bg-zinc-800 text-gray-400 border-white/5' 
-                        : 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border ${category.parent
+                          ? 'bg-zinc-800 text-gray-400 border-white/5'
+                          : 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]'
+                        }`}>
                         {category.parent ? 'فئة فرعية' : 'فئة رئيسية'}
                       </span>
                     </div>
@@ -173,9 +172,9 @@ export default function AdminCategory() {
 
           {!loading && categories.length === 0 && (
             <div className="text-center py-20 bg-zinc-900/20 rounded-[3rem] border border-dashed border-zinc-800">
-                <Layers size={48} className="mx-auto mb-4 text-zinc-800" />
-                <p className="text-gray-500 font-medium">لم يتم إنشاء أي فئات حتى الآن</p>
-                <Link to="/admin/categories/create" className="text-blue-500 text-sm hover:underline mt-2 inline-block">أنشئ فئتك الأولى الآن</Link>
+              <Layers size={48} className="mx-auto mb-4 text-zinc-800" />
+              <p className="text-gray-500 font-medium">لم يتم إنشاء أي فئات حتى الآن</p>
+              <Link to="/admin/categories/create" className="text-blue-500 text-sm hover:underline mt-2 inline-block">أنشئ فئتك الأولى الآن</Link>
             </div>
           )}
         </div>

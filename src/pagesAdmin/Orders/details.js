@@ -20,10 +20,10 @@ export default function AdminOrdersDetails() {
   const fetchOrderDetails = async () => {
     try {
       const res = await axios.get(`https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}`, {
-        headers: { 
-            Authorization: `Bearer ${token}`,
-            "Accept": "application/json",
-            "ngrok-skip-browser-warning": "true"
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Accept": "application/json",
+          "ngrok-skip-browser-warning": "true"
         },
       });
       if (res.data.success) {
@@ -68,13 +68,13 @@ export default function AdminOrdersDetails() {
   if (!order) return <p className="p-10 text-center text-zinc-500">الطلب غير موجود</p>;
 
   return (
-    <div className="min-h-screen bg-[#050505] p-4 md:p-8 text-right text-white" dir="rtl">
+    <div className="min-h-screen bg-[#050505] p-4 md:p-8 pt-24 md:pt-32 lg:pt-12 text-right text-white" dir="rtl">
       <div className="max-w-5xl mx-auto">
-        
+
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-b border-white/5 pb-6 gap-4">
           <div>
-            <button 
+            <button
               onClick={() => navigate("/admin/orders")}
               className="flex items-center gap-2 text-zinc-500 hover:text-white mb-2 transition-colors text-sm font-bold"
             >
@@ -85,27 +85,27 @@ export default function AdminOrdersDetails() {
             </h1>
             <p className="text-zinc-500 text-xs mt-1">تاريخ الإنشاء: {new Date(order.created_at).toLocaleString('ar-EG')}</p>
           </div>
-          
+
           <div className="flex flex-col gap-2 w-full md:w-auto">
-             <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">تحديث الحالة</label>
-             <select 
-               disabled={updating}
-               value={order.status}
-               onChange={(e) => handleStatusChange(e.target.value)}
-               className="bg-zinc-800 border border-white/10 p-3 rounded-xl text-sm font-bold outline-none focus:border-blue-500 transition-all cursor-pointer"
-             >
-                {orderStatuses.map(s => <option key={s} value={s}>{s.toUpperCase()}</option>)}
-             </select>
+            <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">تحديث الحالة</label>
+            <select
+              disabled={updating}
+              value={order.status}
+              onChange={(e) => handleStatusChange(e.target.value)}
+              className="bg-zinc-800 border border-white/10 p-3 rounded-xl text-sm font-bold outline-none focus:border-blue-500 transition-all cursor-pointer"
+            >
+              {orderStatuses.map(s => <option key={s} value={s}>{s.toUpperCase()}</option>)}
+            </select>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
+
           {/* محتويات الطلب */}
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-zinc-900/40 rounded-[2rem] border border-white/5 overflow-hidden">
               <div className="p-6 border-b border-white/5 bg-white/5">
-                <h3 className="font-bold flex items-center gap-2"><Package size={20} className="text-blue-500"/> المنتجات المطلوبة</h3>
+                <h3 className="font-bold flex items-center gap-2"><Package size={20} className="text-blue-500" /> المنتجات المطلوبة</h3>
               </div>
               <div className="divide-y divide-white/5">
                 {order.items?.map((item) => (
@@ -132,26 +132,26 @@ export default function AdminOrdersDetails() {
 
           {/* العميل والدفع */}
           <div className="space-y-6">
-            
+
             {/* بطاقة العميل */}
             <div className="bg-zinc-900/40 p-6 rounded-[2rem] border border-white/5">
               <h3 className="font-bold text-white mb-6 flex items-center gap-2 border-b border-white/5 pb-4 uppercase tracking-tighter text-sm">
-                <User size={18} className="text-blue-500"/> معلومات الشحن
+                <User size={18} className="text-blue-500" /> معلومات الشحن
               </h3>
               <div className="space-y-4">
                 <div>
-                    <p className="text-xs text-zinc-500 mb-1">العميل:</p>
-                    <p className="text-sm font-bold">{order.shipping_name}</p>
+                  <p className="text-xs text-zinc-500 mb-1">العميل:</p>
+                  <p className="text-sm font-bold">{order.shipping_name}</p>
                 </div>
                 <div>
-                    <p className="text-xs text-zinc-500 mb-1">الهاتف:</p>
-                    <p className="text-sm font-bold">{order.shipping_phone}</p>
+                  <p className="text-xs text-zinc-500 mb-1">الهاتف:</p>
+                  <p className="text-sm font-bold">{order.shipping_phone}</p>
                 </div>
                 <div>
-                    <p className="text-xs text-zinc-500 mb-1">العنوان:</p>
-                    <p className="text-xs text-zinc-400 bg-black/20 p-3 rounded-xl border border-white/5 leading-relaxed">
-                        {order.shipping_address}, {order.shipping_city}, {order.shipping_state}
-                    </p>
+                  <p className="text-xs text-zinc-500 mb-1">العنوان:</p>
+                  <p className="text-xs text-zinc-400 bg-black/20 p-3 rounded-xl border border-white/5 leading-relaxed">
+                    {order.shipping_address}, {order.shipping_city}, {order.shipping_state}
+                  </p>
                 </div>
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function AdminOrdersDetails() {
             {/* بطاقة الدفع */}
             <div className="bg-zinc-900/40 p-6 rounded-[2rem] border border-white/5">
               <h3 className="font-bold text-white mb-6 flex items-center gap-2 border-b border-white/5 pb-4 uppercase tracking-tighter text-sm">
-                <CreditCard size={18} className="text-blue-500"/> تفاصيل المالية
+                <CreditCard size={18} className="text-blue-500" /> تفاصيل المالية
               </h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
@@ -184,9 +184,9 @@ export default function AdminOrdersDetails() {
       </div>
 
       {updating && (
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center">
-              <Loader2 className="animate-spin text-blue-500" size={40} />
-          </div>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center">
+          <Loader2 className="animate-spin text-blue-500" size={40} />
+        </div>
       )}
     </div>
   );

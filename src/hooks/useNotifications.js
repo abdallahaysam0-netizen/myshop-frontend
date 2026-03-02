@@ -8,7 +8,7 @@ const useNotifications = (user) => {
     useEffect(() => {
         // 1. التحقق من وجود ID حقيقي (وليس مجرد نص 'undefined' أو null)
         const userId = user?.id || localStorage.getItem("user_id");
-        
+
         if (!userId || userId === 'null' || userId === 'undefined') {
             // لا نطبع تحذير هنا لتجنب إزعاجك في الكونسول عند كل تحديث، 
             // التطبيق ببساطة سينتظر تسجيل الدخول.
@@ -27,17 +27,18 @@ const useNotifications = (user) => {
         // 3. إعداد Echo للعمل مع Laravel Reverb
         const echo = new Echo({
             broadcaster: 'reverb',
-            key: '35lnv77uu0ch1j7cnnie', 
-            wsHost:'127.0.0.1', 
+            key: '35lnv77uu0ch1j7cnnie',
+            wsHost: '127.0.0.1',
             wsPort: 8080,
             wssPort: 8080,
             forceTLS: false,
             enabledTransports: ['ws', 'wss'],
-            authEndpoint: 'https://marisa-nonretired-willis.ngrok-free.dev/broadcasting/auth', 
+            authEndpoint: 'https://marisa-nonretired-willis.ngrok-free.dev/broadcasting/auth',
             auth: {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     Accept: 'application/json',
+                    'ngrok-skip-browser-warning': 'true'
                 }
             }
         });

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { 
-  Package, Clock, CheckCircle2, XCircle, ChevronLeft, 
-  Calendar, CreditCard, ShoppingBag, AlertCircle, Hash, Copy, Loader2 
+import {
+  Package, Clock, CheckCircle2, XCircle, ChevronLeft,
+  Calendar, CreditCard, ShoppingBag, AlertCircle, Hash, Copy, Loader2
 } from "lucide-react";
 
 const OrderPage = () => {
@@ -37,7 +37,7 @@ const OrderPage = () => {
       headers: {
         "Authorization": `Bearer ${token}`,
         "Accept": "application/json",
-   'ngrok-skip-browser-warning': 'true'
+        'ngrok-skip-browser-warning': 'true'
       },
     })
       .then(async (res) => {
@@ -115,9 +115,9 @@ const OrderPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-32 pb-20 px-6 font-sans" dir="rtl">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 md:pt-32 pb-20 px-6 font-sans" dir="rtl">
       <div className="container mx-auto max-w-5xl">
-        
+
         {/* الهيدر */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-12">
           <div>
@@ -151,12 +151,12 @@ const OrderPage = () => {
           <div className="space-y-6">
             {orders.map((order) => {
               const status = getStatusDetails(order.status);
-              
+
               // ✅ المنطق البرمجي لإظهار كود فوري:
               // يظهر الكود إذا كانت الطريقة فوري والحالة انتظار (pending)
               const fawryCode = (order.payment_method === 'fawry' && order.status === 'pending')
-                                ? order.payment_reference
-                                : null;
+                ? order.payment_reference
+                : null;
 
               // ✅ منطق إظهار معلومات الدفع المعلق
               const showPendingPayment = order.status === 'pending' && ['credit_card', 'fawry', 'wallet'].includes(order.payment_method);
@@ -164,36 +164,36 @@ const OrderPage = () => {
               return (
                 <div key={order.id} className="group relative bg-zinc-900/40 border border-white/5 p-6 rounded-[2rem] transition-all hover:bg-zinc-900/60 hover:border-blue-500/30 backdrop-blur-sm">
                   <div className="flex flex-col gap-6">
-                    
+
                     {/* معلومات الطلب العلوية */}
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                        <div className="flex items-center gap-6">
-                          <div className="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-500/20">
-                            <Package size={28} />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-black mb-1">طلب رقم #{order.order_number || order.id}</h3>
-                            <div className="flex items-center gap-4 text-xs text-gray-500">
-                              <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(order.created_at).toLocaleDateString('ar-EG')}</span>
-                              <span className="flex items-center gap-1"><CreditCard size={14} /> {order.total} ج.م</span>
-                              <span className="border-r border-white/10 pr-3 mr-1 font-bold text-gray-400 capitalize">{order.payment_method}</span>
-                            </div>
+                      <div className="flex items-center gap-6">
+                        <div className="w-16 h-16 bg-blue-600/10 rounded-2xl flex items-center justify-center text-blue-500 border border-blue-500/20">
+                          <Package size={28} />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-black mb-1">طلب رقم #{order.order_number || order.id}</h3>
+                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <span className="flex items-center gap-1"><Calendar size={14} /> {new Date(order.created_at).toLocaleDateString('ar-EG')}</span>
+                            <span className="flex items-center gap-1"><CreditCard size={14} /> {order.total} ج.م</span>
+                            <span className="border-r border-white/10 pr-3 mr-1 font-bold text-gray-400 capitalize">{order.payment_method}</span>
                           </div>
                         </div>
+                      </div>
 
-                        <div className="flex items-center gap-2">
-                          <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold border ${status.color}`}>
-                            {status.icon} {status.label}
-                          </div>
-                          <Link to={`/order/${order.id}`} className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all">
-                            <ChevronLeft size={20} />
-                          </Link>
-                          {order.can_be_cancelled && (
-                             <button onClick={() => handleUserCancel(order.id)} disabled={isCancelling} className="p-2.5 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
-                                <XCircle size={20} />
-                             </button>
-                          )}
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold border ${status.color}`}>
+                          {status.icon} {status.label}
                         </div>
+                        <Link to={`/order/${order.id}`} className="p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all">
+                          <ChevronLeft size={20} />
+                        </Link>
+                        {order.can_be_cancelled && (
+                          <button onClick={() => handleUserCancel(order.id)} disabled={isCancelling} className="p-2.5 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                            <XCircle size={20} />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
                     {/* ✅ جزء كود فوري: يظهر فقط إذا كان متاحاً في الـ Response */}
@@ -208,7 +208,7 @@ const OrderPage = () => {
                             <p className="text-3xl font-black tracking-[0.3em]">{fawryCode}</p>
                           </div>
                         </div>
-                        <button 
+                        <button
                           onClick={() => { navigator.clipboard.writeText(fawryCode); alert("تم نسخ الكود"); }}
                           className="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-500 transition-all"
                         >

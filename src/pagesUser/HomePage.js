@@ -16,10 +16,10 @@ const HomePage = () => {
             <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-medium mb-6 animate-fade-in">
               وصل حديثاً: تشكيلة شتاء 2026
             </span>
-            <h1 className="text-6xl md:text-7xl font-black mb-6 tracking-tight leading-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight leading-tight">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">MyShop</span> ارتقِ بتجربتك مع
             </h1>
-            <p className="text-lg md:text-xl mb-10 text-gray-400 leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl mb-10 text-gray-400 leading-relaxed">
               نجمع لك الجودة، الأناقة، وأحدث الابتكارات في مكان واحد. تسوق بذكاء، تسوق الآن.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -50,41 +50,41 @@ const HomePage = () => {
         </div>
       </section>
 
-{/* --- Section: Categories --- */}
-<section className="py-24 relative overflow-hidden">
-  {/* تأثير ضوئي خلفي جانبي لإعطاء عمق (Glow Effect) */}
-  <div className="absolute top-1/2 -right-24 w-80 h-80 bg-blue-600/10 blur-[120px] rounded-full -z-10" />
+      {/* --- Section: Categories --- */}
+      <section className="py-24 relative overflow-hidden">
+        {/* تأثير ضوئي خلفي جانبي لإعطاء عمق (Glow Effect) */}
+        <div className="absolute top-1/2 -right-24 w-80 h-80 bg-blue-600/10 blur-[120px] rounded-full -z-10" />
 
-  <div className="container mx-auto px-6">
-    {/* الهيدر: تم تحسين المحاذاة لتبدو أكثر انسيابية */}
-    <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
-      <div className="space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="h-1 w-12 bg-blue-600 rounded-full" />
-          <span className="text-blue-500 font-bold uppercase tracking-widest text-xs">تصفح المجموعات</span>
+        <div className="container mx-auto px-6">
+          {/* الهيدر: تم تحسين المحاذاة لتبدو أكثر انسيابية */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="h-1 w-12 bg-blue-600 rounded-full" />
+                <span className="text-blue-500 font-bold uppercase tracking-widest text-xs">تصفح المجموعات</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
+                أقسام <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-400 to-blue-600">المنتجات</span>
+              </h2>
+            </div>
+
+            {/* تم تحسين النص الوصفي ليكون متناسقاً مع التصميم بدون ml-40 الثابتة */}
+            <p className="text-gray-400 max-w-sm text-lg leading-relaxed border-r-2 border-white/5 pr-6">
+              تصفح مجموعتنا الواسعة المصنفة بعناية لتجد ما يناسب احتياجاتك تماماً وبأعلى جودة.
+            </p>
+          </div>
+
+          {/* حاوية الأقسام: إضافة تأثير Glassmorphism أقوى */}
+          <div className="relative group">
+            {/* توهج خفي يظهر خلف الحاوية عند مرور الماوس */}
+            <div className="absolute inset-0 bg-blue-500/5 blur-3xl rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+            <div className="relative bg-zinc-900/20 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/5 hover:border-blue-500/20 transition-all duration-500 shadow-2xl">
+              <CategoriesPage />
+            </div>
+          </div>
         </div>
-        <h2 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-          أقسام <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-blue-400 to-blue-600">المنتجات</span>
-        </h2>
-      </div>
-      
-      {/* تم تحسين النص الوصفي ليكون متناسقاً مع التصميم بدون ml-40 الثابتة */}
-      <p className="text-gray-400 max-w-sm text-lg leading-relaxed border-r-2 border-white/5 pr-6">
-        تصفح مجموعتنا الواسعة المصنفة بعناية لتجد ما يناسب احتياجاتك تماماً وبأعلى جودة.
-      </p>
-    </div>
-
-    {/* حاوية الأقسام: إضافة تأثير Glassmorphism أقوى */}
-    <div className="relative group">
-      {/* توهج خفي يظهر خلف الحاوية عند مرور الماوس */}
-      <div className="absolute inset-0 bg-blue-500/5 blur-3xl rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-      
-      <div className="relative bg-zinc-900/20 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/5 hover:border-blue-500/20 transition-all duration-500 shadow-2xl">
-        <CategoriesPage />
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* --- Section: Features --- */}
       <section className="py-20 bg-black">

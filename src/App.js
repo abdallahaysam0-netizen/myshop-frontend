@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import Footer from './components/footer'; 
+import Footer from './components/footer';
 import { Routes, Route } from 'react-router-dom';
 import { UserProvider } from "./context/userContext";
 import { useContext } from 'react';
@@ -41,19 +41,18 @@ axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
 
 function App() {
   // 2️⃣ استدعاء المستخدم من السياق
-  // تأكد أن userContext يوفر كائن user يحتوي على id
-  const { user } = useContext(UserContext); 
+  const { userName, userId } = useContext(UserContext);
 
   // 3️⃣ تشغيل نظام الإشعارات (سيعمل فقط إذا كان المستخدم مسجلاً)
-  useNotifications(user);
+  useNotifications(userId);
   return (
-    <UserProvider>
+    <>
       {/* 1. flex flex-col: تجعل العناصر تترتب عمودياً.
           2. min-h-screen: تجعل طول الصفحة لا يقل عن طول شاشة المتصفح.
           3. bg-[#050505]: توحيد الخلفية مع التصميم المظلم.
       */}
       <div className="flex flex-col min-h-screen bg-[#050505] text-white">
-        
+
         <Navbar />
 
         {/* flex-grow: تجعل هذا الجزء يأخذ كل المساحة المتاحة في المنتصف، 
@@ -72,28 +71,28 @@ function App() {
             <Route path="/customer/login" element={<LoginPage />} />
             <Route path="/customer/register" element={<CustomerRegisterPage />} />
             <Route path='/admin' element={<AdminDashboard />} />
-            <Route path='/admin/products' element={<AdminProducts/>}/>
-            <Route path='/admin/products/details/:id' element={<ProductAdminDetails/>}/>
-            <Route path='admin/products/create' element={<AdminCreateProduct/>}/>
-            <Route path='/admin/products/edit/:id' element={<AdminEditProduct/>}/>
-            <Route path='/admin/categories' element={<AdminCategory/>}/>
-            <Route path='/admin/categories/details/:id'element={<AdminCategoriesDetails/>}/>
-            <Route path='/admin/categories/create' element={<AdminCreateCategory/>}/>
-            <Route path='/admin/categories/edit/:id'element={<AdminEditCategory/>}/>
-            <Route path='/admin/orders' element={<AdminOrders/>}/>
-            <Route path='/admin/orders/:id'element={<AdminOrdersDetails/>}/>
-            <Route path='/admin/users' element={<AdminUsers/>}/>
-            <Route path='/create/users' element={<AdminCreateUser/>}/>
-            <Route path="/categories/:id" element={<CategoryProduct/>}/> 
-            <Route path='/offer'element={<OfferPage/>}/>
-            
+            <Route path='/admin/products' element={<AdminProducts />} />
+            <Route path='/admin/products/details/:id' element={<ProductAdminDetails />} />
+            <Route path='admin/products/create' element={<AdminCreateProduct />} />
+            <Route path='/admin/products/edit/:id' element={<AdminEditProduct />} />
+            <Route path='/admin/categories' element={<AdminCategory />} />
+            <Route path='/admin/categories/details/:id' element={<AdminCategoriesDetails />} />
+            <Route path='/admin/categories/create' element={<AdminCreateCategory />} />
+            <Route path='/admin/categories/edit/:id' element={<AdminEditCategory />} />
+            <Route path='/admin/orders' element={<AdminOrders />} />
+            <Route path='/admin/orders/:id' element={<AdminOrdersDetails />} />
+            <Route path='/admin/users' element={<AdminUsers />} />
+            <Route path='/create/users' element={<AdminCreateUser />} />
+            <Route path="/categories/:id" element={<CategoryProduct />} />
+            <Route path='/offer' element={<OfferPage />} />
+
           </Routes>
         </main>
 
         <Footer />
       </div>
-    </UserProvider>
-  
+    </>
+
   );
 
 }

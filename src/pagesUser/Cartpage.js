@@ -16,12 +16,13 @@ const CartPage = () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
+          "ngrok-skip-browser-warning": "true"
         },
       });
       const data = await res.json();
       if (data.success) {
         setCart(data.data);
-        
+
         // --- تعديل الحساب هنا ليستخدم final_price (السعر بعد الخصم) ---
         const calculatedTotal = data.data.reduce((acc, item) => {
           const priceToUse = item.product.final_price || item.product.price; // يستخدم السعر بعد الخصم لو موجود
@@ -58,7 +59,8 @@ const CartPage = () => {
     const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/cart/${item.id}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        "ngrok-skip-browser-warning": "true"
       },
     });
     await res.json();
@@ -87,7 +89,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 md:pt-32 pb-20 px-4 md:px-6">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-4xl font-black mb-12 flex items-center gap-4">
           <ShoppingBag className="text-blue-500" size={36} />
@@ -95,7 +97,7 @@ const CartPage = () => {
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-          
+
           {/* --- قائمة المنتجات (يسار) --- */}
           <div className="lg:col-span-2 space-y-6">
             {cart.map((item) => (
@@ -103,16 +105,16 @@ const CartPage = () => {
                 <div className="flex items-center gap-6 w-full">
                   {/* صورة المنتج */}
                   <div className="w-24 h-24 rounded-2xl overflow-hidden bg-zinc-800 flex-shrink-0 border border-white/10">
-                    <img 
-                      src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${item.product.image}`) : "/placeholder.png"} 
+                    <img
+                      src={item.product.image ? (item.product.image.startsWith('http') ? item.product.image : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${item.product.image}`) : "/placeholder.png"}
                       alt={item.product.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
-                  
+
                   <div className="flex-1">
                     <h3 className="text-xl font-bold mb-1 group-hover:text-blue-400 transition-colors">{item.product.name}</h3>
-                    
+
                     {/* --- عرض السعر الجديد والنسبة هنا --- */}
                     <div className="flex items-center gap-3">
                       <p className="text-blue-500 font-black text-lg">
@@ -134,22 +136,22 @@ const CartPage = () => {
                 {/* التحكم في الكمية */}
                 <div className="flex items-center gap-6 mt-4 sm:mt-0 w-full sm:w-auto justify-between sm:justify-end">
                   <div className="flex items-center gap-4 bg-black/40 p-2 rounded-xl border border-white/5">
-                    <button 
-                      className="p-1 hover:text-blue-500 transition-colors" 
+                    <button
+                      className="p-1 hover:text-blue-500 transition-colors"
                       onClick={() => updateQuantity(item, item.quantity - 1)}
                     >
                       <Minus size={18} />
                     </button>
                     <span className="font-bold w-6 text-center">{item.quantity}</span>
-                    <button 
-                      className="p-1 hover:text-blue-500 transition-colors" 
+                    <button
+                      className="p-1 hover:text-blue-500 transition-colors"
                       onClick={() => updateQuantity(item, item.quantity + 1)}
                     >
                       <Plus size={18} />
                     </button>
                   </div>
-                  
-                  <button 
+
+                  <button
                     className="p-3 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
                     onClick={() => removeItem(item)}
                   >
@@ -167,7 +169,7 @@ const CartPage = () => {
                 <CreditCard size={24} className="text-blue-500" />
                 ملخص الطلب
               </h3>
-              
+
               <div className="space-y-4 mb-8 text-gray-400">
                 <div className="flex justify-between">
                   <span>المجموع الفرعي</span>
@@ -183,7 +185,7 @@ const CartPage = () => {
                 </div>
               </div>
 
-              <button 
+              <button
                 className="w-full bg-blue-600 hover:bg-blue-500 text-white py-5 rounded-2xl font-black text-lg flex items-center justify-center gap-3 transition-all transform active:scale-95 shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)]"
                 onClick={() => navigate("/checkout")}
               >
@@ -192,7 +194,7 @@ const CartPage = () => {
               </button>
 
               <div className="mt-6 flex items-center justify-center gap-4 opacity-30 grayscale">
-              
+
               </div>
             </div>
           </div>

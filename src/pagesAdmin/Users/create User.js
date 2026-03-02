@@ -65,39 +65,45 @@ export default function AdminCreateUser() {
     };
 
     return (
-        <div className="flex">
+        <div className="flex flex-col lg:flex-row min-h-screen bg-[#050505] text-white">
             <Sidebar />
-            <form onSubmit={handleSubmit} className="p-6 max-w-xl h-full w-full grid gap-4">
+            <main className="flex-1 p-4 md:p-8 lg:p-12 pt-20 lg:pt-12 overflow-y-auto relative">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full -z-10" />
+                <div className="max-w-xl mx-auto bg-zinc-900/40 border border-white/5 p-8 rounded-[2.5rem] backdrop-blur-md">
+                    <h2 className="text-3xl font-black mb-8 text-right text-blue-500 uppercase tracking-tight">إضافة مستخدم جديد</h2>
+                    <form onSubmit={handleSubmit} className="grid gap-6 text-right" dir="rtl">
 
 
-                <input className="border" id="product-name" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
-                <input type="email" className="border" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                <input className="border p-2" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                <div className="border p-2">
-                    <label className="mr-4">
-                        <input
-                            type="radio"
-                            name="type"
-                            value="customer"
-                            checked={type === "customer"}
-                            onChange={(e) => setType(e.target.value)}
-                        />
-                        Customer
-                    </label>
+                        <input className="border" id="product-name" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+                        <input type="email" className="border" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                        <input className="border p-2" placeholder="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <div className="border p-2">
+                            <label className="mr-4">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="customer"
+                                    checked={type === "customer"}
+                                    onChange={(e) => setType(e.target.value)}
+                                />
+                                Customer
+                            </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="type"
-                            value="admin"
-                            checked={type === "admin"}
-                            onChange={(e) => setType(e.target.value)}
-                        />
-                        Admin
-                    </label>
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="admin"
+                                    checked={type === "admin"}
+                                    onChange={(e) => setType(e.target.value)}
+                                />
+                                Admin
+                            </label>
+                        </div>
+                        <button className="w-full bg-blue-600 hover:bg-blue-500 text-white py-4 rounded-2xl font-black text-lg transition-all transform active:scale-95 shadow-lg shadow-blue-500/20">إنشاء الآن</button>
+                    </form>
                 </div>
-                <button className="bg-blue-500 text-white p-2 rounded">Create</button>
-            </form>
+            </main>
         </div>
     );
 }

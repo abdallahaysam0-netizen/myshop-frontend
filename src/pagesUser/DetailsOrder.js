@@ -43,18 +43,18 @@ const DetailsOrderPage = () => {
 
   if (!order) return (
     <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center text-white p-6">
-        <h2 className="text-2xl font-bold mb-4">الطلب غير موجود</h2>
-        <button onClick={() => navigate("/orders")} className="text-blue-500 hover:underline">العودة للطلبات</button>
+      <h2 className="text-2xl font-bold mb-4">الطلب غير موجود</h2>
+      <button onClick={() => navigate("/orders")} className="text-blue-500 hover:underline">العودة للطلبات</button>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-32 pb-20 px-6" dir="rtl">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 md:pt-32 pb-20 px-6" dir="rtl">
       <div className="container mx-auto max-w-5xl">
-        
+
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10 border-b border-white/5 pb-8">
           <div>
-            <button 
+            <button
               onClick={() => navigate("/orders")}
               className="flex items-center gap-2 text-gray-500 hover:text-white mb-4 transition-colors group text-sm font-bold"
             >
@@ -76,7 +76,7 @@ const DetailsOrderPage = () => {
         <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-[2.5rem] mb-10 overflow-x-auto">
           <div className="flex justify-between items-center min-w-[600px] relative">
             <div className="absolute top-1/2 left-0 w-full h-0.5 bg-zinc-800 -translate-y-1/2 z-0" />
-            
+
             <TrackingStep icon={<Clock />} label="بانتظار الدفع" active={getStatusStep(order.status) >= 0} />
             <TrackingStep icon={<CheckCircle2 />} label="تم التأكيد" active={getStatusStep(order.status) >= 1} />
             <TrackingStep icon={<Box />} label="قيد التجهيز" active={getStatusStep(order.status) >= 2} />
@@ -91,12 +91,12 @@ const DetailsOrderPage = () => {
               <Tag size={20} className="text-blue-500" />
               محتويات الطلب
             </h2>
-            
+
             {order.items?.map((item) => (
               <div key={item.id} className="flex items-center justify-between p-6 bg-zinc-900/40 border border-white/5 rounded-3xl hover:bg-zinc-900/60 transition-colors">
                 <div className="flex items-center gap-6">
                   <div className="w-16 h-16 bg-zinc-800 rounded-2xl flex items-center justify-center text-gray-500 border border-white/5">
-                      <Box size={24} />
+                    <Box size={24} />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">
@@ -118,7 +118,7 @@ const DetailsOrderPage = () => {
                 <CreditCard size={20} className="text-blue-500" />
                 ملخص الحساب
               </h3>
-              
+
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between text-gray-400">
                   <span>المجموع الفرعي</span>
@@ -133,7 +133,7 @@ const DetailsOrderPage = () => {
                   <span>الضريبة</span>
                   <span>{order.tax || 0} ج.م</span>
                 </div>
-                
+
                 <div className="border-t border-white/5 pt-4 flex justify-between items-end">
                   <span className="font-bold text-white">الإجمالي</span>
                   <span className="text-3xl font-black text-blue-500">{order.total} ج.م</span>
@@ -147,11 +147,11 @@ const DetailsOrderPage = () => {
             </div>
 
             <div className="bg-zinc-900/20 p-6 rounded-3xl border border-white/5">
-                <h4 className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">حالة الطلب</h4>
-                <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 rounded-full animate-pulse ${order.status === 'completed' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
-                    <span className="text-lg font-bold capitalize">{order.status}</span>
-                </div>
+              <h4 className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">حالة الطلب</h4>
+              <div className="flex items-center gap-3">
+                <div className={`w-3 h-3 rounded-full animate-pulse ${order.status === 'completed' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+                <span className="text-lg font-bold capitalize">{order.status}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -162,11 +162,10 @@ const DetailsOrderPage = () => {
 
 const TrackingStep = ({ icon, label, active }) => (
   <div className="relative z-10 flex flex-col items-center gap-3">
-    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${
-      active 
-      ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' 
-      : 'bg-zinc-900 border-zinc-800 text-gray-600'
-    }`}>
+    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${active
+        ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]'
+        : 'bg-zinc-900 border-zinc-800 text-gray-600'
+      }`}>
       {icon}
     </div>
     <span className={`text-xs font-bold tracking-tight ${active ? 'text-white' : 'text-gray-600'}`}>

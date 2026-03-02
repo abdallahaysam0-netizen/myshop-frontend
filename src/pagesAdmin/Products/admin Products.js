@@ -54,7 +54,7 @@ export default function AdminProducts() {
     <div className="flex min-h-screen bg-[#050505] text-white overflow-hidden">
       <Sidebar />
 
-      <div className="flex-1 p-8 lg:p-12 overflow-y-auto relative">
+      <div className="flex-1 p-4 md:p-8 lg:p-12 pt-20 lg:pt-12 overflow-y-auto relative">
         {/* تأثيرات ضوئية خلفية */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px] rounded-full -z-10" />
 
@@ -64,7 +64,7 @@ export default function AdminProducts() {
             <h1 className="text-4xl font-black tracking-tight mb-2">إدارة المنتجات</h1>
             <p className="text-gray-500 font-medium">تحكم في المخزون، الأسعار، وتفاصيل المنتجات</p>
           </div>
-          
+
           <Link
             to="/admin/Products/create"
             className="group bg-blue-600 hover:bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold transition-all flex items-center gap-2 shadow-[0_20px_40px_-10px_rgba(37,99,235,0.4)] active:scale-95"
@@ -83,7 +83,7 @@ export default function AdminProducts() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((product) => (
               <div key={product.id} className="group bg-zinc-900/40 border border-white/5 p-4 rounded-[2.5rem] backdrop-blur-md transition-all hover:bg-zinc-900/60 hover:border-blue-500/20 shadow-xl flex flex-col h-full">
-                
+
                 {/* صورة المنتج */}
                 <div className="relative h-56 overflow-hidden rounded-[2rem] mb-6">
                   <img
@@ -92,11 +92,10 @@ export default function AdminProducts() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   {/* شارة حالة المخزون */}
-                  <div className={`absolute top-4 left-4 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border backdrop-blur-md ${
-                    product.stock > 0 
-                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                  <div className={`absolute top-4 left-4 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border backdrop-blur-md ${product.stock > 0
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                     : 'bg-red-500/10 text-red-400 border-red-500/20'
-                  }`}>
+                    }`}>
                     {product.stock > 0 ? `متوفر: ${product.stock}` : 'نافذ من المخزن'}
                   </div>
                 </div>

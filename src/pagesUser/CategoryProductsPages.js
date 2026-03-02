@@ -31,17 +31,17 @@ const CategoryProduct = () => {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [id]);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white pt-32 pb-20 px-6">
+    <div className="min-h-screen bg-[#050505] text-white pt-24 md:pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-7xl">
-        
+
         {/* --- الهيدر (Header Section) --- */}
         <div className="mb-12  flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/5 pb-8">
           <div>
-            <button 
+            <button
               onClick={() => navigate("/categories")}
               className="flex items-center gap-2 text-gray-500 hover:text-white mb-4 transition-colors group text-sm font-bold"
             >
@@ -53,9 +53,9 @@ const CategoryProduct = () => {
               منتجات القسم
             </h1>
           </div>
-          
+
           <div className="bg-zinc-900/50 px-6 py-3 rounded-2xl border border-white/5 text-sm font-bold text-gray-400">
-             تم العثور على <span className="text-blue-500">{products.length}</span> منتج
+            تم العثور على <span className="text-blue-500">{products.length}</span> منتج
           </div>
         </div>
 
@@ -75,12 +75,12 @@ const CategoryProduct = () => {
                 <h3 className="text-2xl font-bold mb-2">هذا القسم فارغ حالياً</h3>
                 <p className="text-gray-500 mb-8">نحن نعمل على إضافة منتجات جديدة لهذا القسم قريباً.</p>
                 <Link to="/products" className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-500 transition-all">
-                    تصفح جميع المنتجات
+                  تصفح جميع المنتجات
                 </Link>
               </div>
             ) : (
               /* --- عرض الشبكة (Product Grid) --- */
-              <div className=" ml-60 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
