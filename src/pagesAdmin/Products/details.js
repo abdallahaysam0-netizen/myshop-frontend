@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar"; // افترضت وجوده لتناسق اللوحة
 
 export default function ProductAdminDetails() {
@@ -8,7 +9,7 @@ export default function ProductAdminDetails() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
+    fetch(`${API_BASE_URL}/products/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "ngrok-skip-browser-warning": "true"
@@ -44,20 +45,20 @@ export default function ProductAdminDetails() {
 
       <main className="flex-1 p-8 overflow-y-auto">
         <div className="max-w-5xl mx-auto">
-          
+
           {/* Header & Action Buttons */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-4" dir="rtl">
             <h1 className="text-4xl font-black text-white border-r-8 border-orange-500 pr-4">
               تفاصيل <span className="text-orange-500">المنتج</span>
             </h1>
             <div className="flex gap-3">
-              <Link 
+              <Link
                 to={`/admin/products/edit/${product.id}`}
                 className="bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-2 rounded-xl transition-all border border-zinc-700"
               >
                 تعديل البيانات
               </Link>
-              <Link 
+              <Link
                 to="/admin/products"
                 className="bg-orange-500 hover:bg-orange-600 text-black px-6 py-2 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/20"
               >
@@ -68,7 +69,7 @@ export default function ProductAdminDetails() {
 
           {/* Main Content Card */}
           <div className="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 lg:grid-cols-2">
-            
+
             {/* Image Section */}
             <div className="relative h-[400px] lg:h-auto overflow-hidden bg-zinc-800">
               {product.image ? (
@@ -90,8 +91,8 @@ export default function ProductAdminDetails() {
             {/* Info Section */}
             <div className="p-8 md:p-12 text-right" dir="rtl">
               <div className="mb-6">
-                 <span className="text-orange-500 font-bold text-sm tracking-widest uppercase">اسم المنتج</span>
-                 <h2 className="text-3xl font-bold text-white mt-1">{product.name}</h2>
+                <span className="text-orange-500 font-bold text-sm tracking-widest uppercase">اسم المنتج</span>
+                <h2 className="text-3xl font-bold text-white mt-1">{product.name}</h2>
               </div>
 
               {/* Pricing Block */}
@@ -100,7 +101,7 @@ export default function ProductAdminDetails() {
                   <span className="text-zinc-400">السعر الأصلي:</span>
                   <span className="text-xl font-sans line-through text-zinc-600">{product.price} ج.م</span>
                 </div>
-                
+
                 {product.discount_price > 0 && (
                   <div className="flex justify-between items-center mb-4 text-orange-400">
                     <span>مبلغ الخصم:</span>

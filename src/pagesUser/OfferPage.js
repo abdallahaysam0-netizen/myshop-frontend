@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { API_BASE_URL } from '../apiConfig';
 
 const OfferPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE_URL = 'https://marisa-nonretired-willis.ngrok-free.dev';
 
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/products-offers`, {
+        const response = await axios.get(`${API_BASE_URL}/products-offers`, {
           headers: { 'ngrok-skip-browser-warning': 'true' }
         });
         if (response.data.success) {

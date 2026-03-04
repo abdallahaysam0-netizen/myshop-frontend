@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 
 export default function AdminCreateProduct() {
@@ -16,7 +17,7 @@ export default function AdminCreateProduct() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories");
+                const res = await fetch(`${API_BASE_URL}/categories`);
                 const data = await res.json();
                 if (data.status === "success" || data.success) {
                     setCategories(data.data);
@@ -52,7 +53,7 @@ export default function AdminCreateProduct() {
         });
 
         try {
-            const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/products", {
+            const res = await fetch(`${API_BASE_URL}/products`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

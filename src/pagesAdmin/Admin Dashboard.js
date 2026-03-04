@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../apiConfig";
 import Sidebar from "../components/sidebar";
 import {
     BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -19,7 +20,7 @@ export default function AdminDashboard() {
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/admin/stats", {
+        fetch(`${API_BASE_URL}/admin/stats`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

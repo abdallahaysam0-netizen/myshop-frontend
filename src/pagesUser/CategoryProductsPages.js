@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 import ProductCard from "../components/productcard"; // استدعاء المكون الذي صممناه سابقاً
 import { ArrowRight, LayoutGrid, Loader2, ShoppingBag } from "lucide-react";
 
@@ -11,7 +12,7 @@ const CategoryProduct = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}/products`, {
+    fetch(`${API_BASE_URL}/categories/${id}/products`, {
       headers: {
         "ngrok-skip-browser-warning": "true"
       }
@@ -24,7 +25,7 @@ const CategoryProduct = () => {
           image: product.image
             ? product.image.startsWith("http")
               ? product.image
-              : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${product.image}`
+              : `${API_BASE_URL.replace('/api', '')}/storage/${product.image}`
             : null,
         }));
         setProducts(productsWithImages);

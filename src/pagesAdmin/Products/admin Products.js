@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 import { Link } from "react-router-dom";
 import { Plus, Pencil, Trash2, Eye, Box, AlertTriangle, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
@@ -14,7 +15,7 @@ export default function AdminProducts() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products?page=${currentPage}`, {
+      const res = await fetch(`${API_BASE_URL}/products?page=${currentPage}`, {
         headers: { Authorization: `Bearer ${token}`, "ngrok-skip-browser-warning": "true" },
       });
       const data = await res.json();
@@ -32,7 +33,7 @@ export default function AdminProducts() {
   const handleDelete = async (id) => {
     if (!window.confirm("⚠️ هل أنت متأكد من حذف هذا المنتج نهائياً؟")) return;
     try {
-      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

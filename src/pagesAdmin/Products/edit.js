@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -27,7 +28,7 @@ export default function AdminEditProduct() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories");
+        const res = await fetch(`${API_BASE_URL}/categories`);
         const data = await res.json();
         if (data.status === "success" || data.success) {
           setCategories(data.data);
@@ -43,11 +44,11 @@ export default function AdminEditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
-        
+
         if (res.ok && data.success) {
           const p = data.data;
           setProduct({
@@ -94,13 +95,14 @@ export default function AdminEditProduct() {
     formData.append("stock", product.stock);
     formData.append("description", product.description);
     if (image) formData.append("image", image);
-    
+
     selectedCategories.forEach(catId => formData.append("categories[]", catId));
 
     try {
-      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "POST",
-        headers: { Authorization: `Bearer ${token}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
           'ngrok-skip-browser-warning': 'true'
         },
         body: formData,
@@ -120,22 +122,22 @@ export default function AdminEditProduct() {
   return (
     <div className="flex bg-black min-h-screen text-zinc-100">
       <Sidebar />
-      
+
       <main className="flex-1 p-8">
         <div className="max-w-4xl mx-auto bg-zinc-900 border border-zinc-800 p-8 rounded-3xl shadow-2xl">
           <h2 className="text-3xl font-black mb-8 text-orange-500">تعديل المنتج</h2>
-          
+
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            
+
             {/* Image Upload Area */}
             <div className="md:col-span-2 flex flex-col items-center p-6 border-2 border-dashed border-zinc-700 rounded-2xl hover:border-orange-500 transition-colors">
-              <img 
-                src={image ? URL.createObjectURL(image) : product.image} 
-                className="w-40 h-40 object-cover rounded-xl mb-4 border border-zinc-700" 
+              <img
+                src={image ? URL.createObjectURL(image) : product.image}
+                className="w-40 h-40 object-cover rounded-xl mb-4 border border-zinc-700"
                 alt="Product"
               />
-              <input 
-                type="file" 
+              <input
+                type="file"
                 onChange={(e) => setImage(e.target.files[0])}
                 className="text-sm text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-orange-500 file:text-black hover:file:bg-orange-600"
               />
@@ -144,7 +146,7 @@ export default function AdminEditProduct() {
             {/* Inputs */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400">اسم المنتج</label>
-              <input 
+              <input
                 name="name" value={product.name} onChange={handleChange}
                 className="bg-zinc-800 border border-zinc-700 p-3 rounded-xl focus:outline-none focus:border-orange-500 transition-all"
               />
@@ -152,7 +154,7 @@ export default function AdminEditProduct() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400">Slug</label>
-              <input 
+              <input
                 name="slug" value={product.slug} onChange={handleChange}
                 className="bg-zinc-800 border border-zinc-700 p-3 rounded-xl focus:outline-none focus:border-orange-500 transition-all"
               />
@@ -160,7 +162,7 @@ export default function AdminEditProduct() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400">السعر الأصلي</label>
-              <input 
+              <input
                 name="price" type="number" value={product.price} onChange={handleChange}
                 className="bg-zinc-800 border border-zinc-700 p-3 rounded-xl focus:outline-none focus:border-orange-500 transition-all"
               />
@@ -168,7 +170,7 @@ export default function AdminEditProduct() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400 text-orange-400">مبلغ الخصم (ج.م)</label>
-              <input 
+              <input
                 name="discount_price" type="number" value={product.discount_price} onChange={handleChange}
                 placeholder="مثلاً: 2000"
                 className="bg-zinc-800 border border-orange-500/30 p-3 rounded-xl focus:outline-none focus:border-orange-500 transition-all text-orange-500 font-bold"
@@ -177,7 +179,7 @@ export default function AdminEditProduct() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400">المخزون (Stock)</label>
-              <input 
+              <input
                 name="stock" type="number" value={product.stock} onChange={handleChange}
                 className="bg-zinc-800 border border-zinc-700 p-3 rounded-xl focus:outline-none focus:border-orange-500 transition-all"
               />
@@ -185,8 +187,8 @@ export default function AdminEditProduct() {
 
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400">الفئات</label>
-              <select 
-                multiple value={selectedCategories} 
+              <select
+                multiple value={selectedCategories}
                 onChange={(e) => setSelectedCategories(Array.from(e.target.selectedOptions, o => o.value))}
                 className="bg-zinc-800 border border-zinc-700 p-3 rounded-xl h-32 focus:outline-none focus:border-orange-500 transition-all"
               >
@@ -198,7 +200,7 @@ export default function AdminEditProduct() {
 
             <div className="md:col-span-2 flex flex-col gap-2">
               <label className="text-sm font-bold text-zinc-400">الوصف</label>
-              <textarea 
+              <textarea
                 name="description" value={product.description} onChange={handleChange} rows="4"
                 className="bg-zinc-800 border border-zinc-700 p-3 rounded-xl focus:outline-none focus:border-orange-500 transition-all"
               />

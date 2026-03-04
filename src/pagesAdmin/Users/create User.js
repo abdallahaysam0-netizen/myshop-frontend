@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 
 export default function AdminCreateUser() {
@@ -24,7 +25,7 @@ export default function AdminCreateUser() {
 
 
         try {
-            const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/admin/users", {
+            const res = await fetch(`${API_BASE_URL}/admin/users`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,

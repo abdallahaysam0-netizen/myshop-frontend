@@ -1,34 +1,36 @@
 import { useState, useContext } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 
 import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../context/userContext";
-import { Mail, Lock, LogIn, Loader2, AlertCircle, ArrowRight } from "lucide-react";
+import { Mail, Lock, LogIn, Loader2, AlertCircle, ArrowRight, Eye, EyeOff } from "lucide-react";
 
 const LoginPage = () => {
     // استخراج الدوال اللازمة لتحديث حالة المستخدم في التطبيق بالكامل
     const { setUserId, setUserName, setUserRole } = useContext(UserContext);
-    
+
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        if (error) setError(""); 
+        if (error) setError("");
     };
 
     const submitLogin = async () => {
         setLoading(true);
         setError("");
         try {
-            const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/login", formData);
+            const res = await axios.post(`${API_BASE_URL}/login`, formData);
             axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
             // استخراج البيانات من استجابة Laravel
-            const { id, role, name } = res.data.user; 
+            const { id, role, name } = res.data.user;
             const token = res.data.token;
-    
+
             // 2. التخزين في localStorage (تأكد من توحيد المسميات مع الـ Navbar)
             localStorage.setItem("token", token); // الـ Navbar يبحث عن 'token'
             localStorage.setItem("user_id", id);
@@ -39,13 +41,13 @@ const LoginPage = () => {
             if (role === "admin") {
                 localStorage.setItem("admin_token", token);
             }
-    
+
             // 3. تحديث الـ Context فوراً
             // هذا الجزء هو المسؤول عن اختفاء زر "دخول" وظهور "اسم المستخدم" في الـ Navbar فوراً
-            setUserId(id);    
+            setUserId(id);
             setUserName(name);
             setUserRole(role);
-    
+
             // 4. التوجيه
             if (role === "admin") {
                 navigate("/admin");
@@ -105,12 +107,19 @@ const LoginPage = () => {
                             <div className="relative group">
                                 <Lock className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-500 transition-colors" size={20} />
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     name="password"
                                     placeholder="••••••••"
                                     onChange={handleChange}
-                                    className="w-full bg-black/40 border border-white/5 rounded-2xl pr-12 pl-4 py-4 text-white outline-none focus:border-blue-500/50 focus:bg-black/60 transition-all"
+                                    className="w-full bg-black/40 border border-white/5 rounded-2xl pr-12 pl-12 py-4 text-white outline-none focus:border-blue-500/50 focus:bg-black/60 transition-all"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
                             </div>
                         </div>
 

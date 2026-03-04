@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../apiConfig";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowRight, Package, Calendar, Tag, CreditCard, CheckCircle2, Clock, Truck, Box } from "lucide-react";
 
@@ -11,7 +12,7 @@ const DetailsOrderPage = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}`, {
+    fetch(`${API_BASE_URL}/orders/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Accept": "application/json",
@@ -163,8 +164,8 @@ const DetailsOrderPage = () => {
 const TrackingStep = ({ icon, label, active }) => (
   <div className="relative z-10 flex flex-col items-center gap-3">
     <div className={`w-14 h-14 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${active
-        ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]'
-        : 'bg-zinc-900 border-zinc-800 text-gray-600'
+      ? 'bg-blue-600 border-blue-400 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]'
+      : 'bg-zinc-900 border-zinc-800 text-gray-600'
       }`}>
       {icon}
     </div>

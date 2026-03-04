@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 
 export default function AdminCreateCategory() {
@@ -47,7 +48,7 @@ export default function AdminCreateCategory() {
         formData.append("sku", "SKU-" + Date.now());
 
         try {
-            const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories", {
+            const res = await fetch(`${API_BASE_URL}/categories`, {
 
                 method: "POST",
                 headers: {

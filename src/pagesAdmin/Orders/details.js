@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_BASE_URL } from "../../apiConfig";
 import { toast } from "react-hot-toast";
 import { Package, User, MapPin, CreditCard, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 
@@ -19,7 +20,7 @@ export default function AdminOrdersDetails() {
 
   const fetchOrderDetails = async () => {
     try {
-      const res = await axios.get(`https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}`, {
+      const res = await axios.get(`${API_BASE_URL}/orders/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Accept": "application/json",
@@ -44,7 +45,7 @@ export default function AdminOrdersDetails() {
     setUpdating(true);
     try {
       const res = await axios.patch(
-        `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${id}/status`,
+        `${API_BASE_URL}/orders/${id}/status`,
         { status: newStatus },
         { headers: { Authorization: `Bearer ${token}` } }
       );

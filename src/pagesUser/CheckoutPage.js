@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 import {
   CreditCard, Truck, MapPin, User, Phone, X,
   AlertCircle, CheckCircle2, Loader2, Smartphone, Hash, Globe, Home
 } from "lucide-react";
 
-// ✅ الرابط الأساسي الخاص بك (تأكد من استخدامه في كل طلبات الـ API)
-const API_BASE_URL = "https://marisa-nonretired-willis.ngrok-free.dev";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -49,7 +48,7 @@ const CheckoutPage = () => {
     setErrorDetails(null);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/checkout`, {
+      const res = await fetch(`${API_BASE_URL}/checkout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

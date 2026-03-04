@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 import { Link, useNavigate } from "react-router-dom";
 import { UserPlus, Mail, Shield, Trash2, Users, Search, Loader2, UserCheck } from "lucide-react";
@@ -17,7 +18,7 @@ export default function AdminUsers() {
 
     try {
       setLoading(true);
-      const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/users", {
+      const res = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -44,7 +45,7 @@ export default function AdminUsers() {
     if (!window.confirm("⚠️ هل أنت متأكد من حذف هذا الحساب نهائياً؟")) return;
 
     try {
-      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/users/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/users/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

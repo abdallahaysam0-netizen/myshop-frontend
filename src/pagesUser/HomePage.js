@@ -79,7 +79,7 @@ const HomePage = () => {
             {/* توهج خفي يظهر خلف الحاوية عند مرور الماوس */}
             <div className="absolute inset-0 bg-blue-500/5 blur-3xl rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-            <div className="relative bg-zinc-900/20 backdrop-blur-md p-10 rounded-[2.5rem] border border-white/5 hover:border-blue-500/20 transition-all duration-500 shadow-2xl">
+            <div className="relative bg-zinc-900/20 backdrop-blur-md p-6 md:p-10 rounded-[2.5rem] border border-white/5 hover:border-blue-500/20 transition-all duration-500 shadow-2xl">
               <CategoriesPage />
             </div>
           </div>

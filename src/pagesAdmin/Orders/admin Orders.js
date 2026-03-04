@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 import axios from "axios";
 import {
@@ -18,7 +19,7 @@ export default function AdminOrders() {
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true);
-      const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/orders", {
+      const res = await axios.get(`${API_BASE_URL}/orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Accept": "application/json",
@@ -47,7 +48,7 @@ export default function AdminOrders() {
 
     try {
       const res = await axios.patch(
-        `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${orderId}/status`,
+        `${API_BASE_URL}/orders/${orderId}/status`,
         { status: value },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -64,7 +65,7 @@ export default function AdminOrders() {
     setIsProcessing(true);
     try {
       const res = await axios.post(
-        `https://marisa-nonretired-willis.ngrok-free.dev/api/orders/${orderId}/cancel`,
+        `${API_BASE_URL}/orders/${orderId}/cancel`,
         {},
         {
           headers: {

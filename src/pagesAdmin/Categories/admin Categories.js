@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 import { Link } from "react-router-dom";
 import {
@@ -22,7 +23,7 @@ export default function AdminCategory() {
   const fetchCategories = async () => {
     try {
       setLoading(true);
-      const res = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories", {
+      const res = await fetch(`${API_BASE_URL}/categories`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
@@ -45,7 +46,7 @@ export default function AdminCategory() {
     if (!window.confirm("⚠️ هل أنت متأكد من حذف هذه الفئة؟ قد يؤثر هذا على المنتجات المرتبطة بها.")) return;
 
     try {
-      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/categories/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -112,8 +113,8 @@ export default function AdminCategory() {
                         <FolderTree size={24} />
                       </div>
                       <span className={`px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border ${category.parent
-                          ? 'bg-zinc-800 text-gray-400 border-white/5'
-                          : 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]'
+                        ? 'bg-zinc-800 text-gray-400 border-white/5'
+                        : 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(37,99,235,0.1)]'
                         }`}>
                         {category.parent ? 'فئة فرعية' : 'فئة رئيسية'}
                       </span>

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { API_BASE_URL } from "../apiConfig";
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
@@ -33,7 +34,7 @@ const useNotifications = (user) => {
             wssPort: 8080,
             forceTLS: false,
             enabledTransports: ['ws', 'wss'],
-            authEndpoint: 'https://marisa-nonretired-willis.ngrok-free.dev/broadcasting/auth',
+            authEndpoint: `${API_BASE_URL}/broadcasting/auth`,
             auth: {
                 headers: {
                     Authorization: `Bearer ${token}`,

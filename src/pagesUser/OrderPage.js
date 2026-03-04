@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 import {
   Package, Clock, CheckCircle2, XCircle, ChevronLeft,
   Calendar, CreditCard, ShoppingBag, AlertCircle, Hash, Copy, Loader2
@@ -12,8 +13,6 @@ const OrderPage = () => {
   const [isCancelling, setIsCancelling] = useState(false);
   const [searchParams] = useSearchParams();
 
-  // الرابط الخاص بك كما طلبت دون تغيير
-  const API_BASE_URL = "https://marisa-nonretired-willis.ngrok-free.dev";
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const OrderPage = () => {
     }
 
     // جلب الطلبات
-    fetch(`${API_BASE_URL}/api/orders`, {
+    fetch(`${API_BASE_URL}/orders`, {
       headers: {
         "Authorization": `Bearer ${token}`,
         "Accept": "application/json",
@@ -60,7 +59,7 @@ const OrderPage = () => {
 
     setIsCancelling(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/api/orders/${orderId}/cancel`, {
+      const res = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel`, {
         method: "POST",
         headers: {
           "Authorization": `Bearer ${token}`,

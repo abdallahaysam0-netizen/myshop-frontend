@@ -1,3 +1,5 @@
+import { API_BASE_URL } from "../apiConfig";
+
 const addToCart = async (productId) => {
   const token = localStorage.getItem("token");
 
@@ -7,7 +9,7 @@ const addToCart = async (productId) => {
   }
 
   try {
-    const response = await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/cart", {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

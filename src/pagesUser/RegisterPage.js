@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 import { useNavigate, Link } from "react-router-dom";
+import { UserContext } from "../context/userContext";
 import { User, Mail, Lock, Eye, EyeOff, UserPlus, Loader2, AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const RegisterPage = () => {
+  const { setUserId, setUserName, setUserRole } = useContext(UserContext);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,7 +23,7 @@ const RegisterPage = () => {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (error) setError(""); 
+    if (error) setError("");
   };
 
   const submitRegister = async () => {
@@ -33,11 +36,20 @@ const RegisterPage = () => {
     setError("");
     try {
 
-      const res = await axios.post("https://marisa-nonretired-willis.ngrok-free.dev/api/register", formData);
-axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.user.role);
-      localStorage.setItem("user_name", res.data.user.name);
+      const res = await axios.post(`${API_BASE_URL}/register`, formData);
+      const { id, role, name } = res.data.user;
+      const token = res.data.token;
+
+      // 1. التخزين في localStorage (توحيد مع LoginPage)
+      localStorage.setItem("token", token);
+      localStorage.setItem("user_id", id);
+      localStorage.setItem("user_name", name);
+      localStorage.setItem("user_role", role);
+
+      // 2. تحديث الـ Context فوراً لتحديث الـ Navbar
+      setUserId(id);
+      setUserName(name);
+      setUserRole(role);
 
       navigate("/");
     } catch (error) {
@@ -67,7 +79,7 @@ axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
 
         {/* بطاقة التسجيل */}
         <div className="bg-zinc-900/40 backdrop-blur-2xl border border-white/5 p-8 md:p-12 rounded-[3rem] shadow-2xl">
-          
+
           {/* عرض الأخطاء */}
           {error && (
             <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 text-red-400 p-4 rounded-2xl mb-8 animate-in fade-in slide-in-from-top-2">

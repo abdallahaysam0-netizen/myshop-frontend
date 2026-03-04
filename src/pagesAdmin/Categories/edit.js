@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { API_BASE_URL } from "../../apiConfig";
 import Sidebar from "../../components/sidebar";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -15,7 +16,7 @@ export default function AdminEditCategory() {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.devس/api/categories/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/categories/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
             Accept: "application/json",
@@ -53,7 +54,7 @@ export default function AdminEditCategory() {
     formData.append("is_active", category.is_active ? 1 : 0); // لو هتعدل الحالة
 
     try {
-      const res = await fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/categories/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -118,14 +119,14 @@ export default function AdminEditCategory() {
             setCategory({ ...category, parent_id: e.target.value })
           }
         />
-     <input
-    type="checkbox"
-    checked={category.is_active || false}
-    onChange={(e) =>
-      setCategory({ ...category, is_active: e.target.checked })
-    }
-  />
-    
+        <input
+          type="checkbox"
+          checked={category.is_active || false}
+          onChange={(e) =>
+            setCategory({ ...category, is_active: e.target.checked })
+          }
+        />
+
         <textarea
           className="border p-2"
           placeholder="Description"

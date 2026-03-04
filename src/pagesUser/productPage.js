@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../apiConfig";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import ProductCard from "../components/productcard";
 import ProductSearch from "../components/ProductSearch";
@@ -24,9 +25,9 @@ const ProductsPage = () => {
   useEffect(() => {
     setLoading(true);
     const url = search
-      ? `https://marisa-nonretired-willis.ngrok-free.dev/api/products/search?q=${search}&page=${currentPage}`
-      : `https://marisa-nonretired-willis.ngrok-free.dev/api/products?page=${currentPage}`;
-fetch(url, {
+      ? `${API_BASE_URL}/products/search?q=${search}&page=${currentPage}`
+      : `${API_BASE_URL}/products?page=${currentPage}`;
+    fetch(url, {
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true" // السطر ده هو اللي هيظهر البيانات
@@ -40,7 +41,7 @@ fetch(url, {
           image: product.image
             ? product.image.startsWith("http")
               ? product.image
-              : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${product.image}`
+              : `${API_BASE_URL.replace('/api', '')}/storage/${product.image}`
             : null,
         }));
         setProducts(productsWithImages);
@@ -51,13 +52,13 @@ fetch(url, {
         console.error(err);
         setLoading(false);
       });
-      window.scrollTo({ top: 0, behavior: 'smooth' }); // صعود تلقائي عند تغيير الصفحة
+    window.scrollTo({ top: 0, behavior: 'smooth' }); // صعود تلقائي عند تغيير الصفحة
   }, [search, currentPage]);
 
   return (
     <div className="min-h-screen bg-[#050505] text-white pt-24 pb-12 px-6">
       <div className="container mx-auto max-w-7xl">
-        
+
         {/* --- الهيدر الاحترافي --- */}
         <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/5 pb-8">
           <div>
@@ -73,11 +74,10 @@ fetch(url, {
 
           <button
             onClick={() => setShowSearch(!showSearch)}
-            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all duration-300 ${
-              showSearch 
-              ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]" 
-              : "bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300"
-            }`}
+            className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all duration-300 ${showSearch
+                ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+                : "bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300"
+              }`}
           >
             <Search size={20} />
             {showSearch ? "إغلاق البحث" : "بحث سريع"}
@@ -108,7 +108,7 @@ fetch(url, {
                 </div>
                 <h3 className="text-2xl font-bold mb-2 text-gray-300">لم نجد ما تبحث عنه</h3>
                 <p className="text-gray-500 max-w-sm">جرب استخدام كلمات بحث مختلفة أو تصفح الأقسام الأخرى.</p>
-                <button 
+                <button
                   onClick={() => navigate("/products")}
                   className="mt-6 text-blue-500 font-semibold hover:underline"
                 >

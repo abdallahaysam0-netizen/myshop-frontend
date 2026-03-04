@@ -27,10 +27,10 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle Button */}
+      {/* Toggle Button - Visible on all screens */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 right-4 z-[60] p-3 bg-blue-600 text-white rounded-2xl shadow-xl active:scale-95 transition-all"
+        className="fixed top-4 right-4 z-[70] p-3 bg-blue-600 text-white rounded-2xl shadow-xl active:scale-95 transition-all hover:bg-blue-700"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -45,8 +45,8 @@ export default function Sidebar() {
 
       {/* Sidebar Content */}
       <div className={`
-        fixed lg:sticky top-0 right-0 h-screen bg-[#050505] border-l border-white/5 flex flex-col p-6 z-[56] transition-transform duration-300 w-72
-        ${isOpen ? "translate-x-0" : "translate-x-full lg:translate-x-0"}
+        fixed top-0 right-0 h-screen bg-[#050505] border-l border-white/5 flex flex-col p-6 z-[60] transition-all duration-300 ease-in-out w-72
+        ${isOpen ? "translate-x-0" : "translate-x-full"}
       `}>
 
         {/* --- الشعار (Brand) --- */}

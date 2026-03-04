@@ -3,6 +3,7 @@ import { UserContext } from "../context/userContext";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Bell, LogOut, Menu, X } from "lucide-react";
 import axios from "axios";
+import { API_BASE_URL } from "../apiConfig";
 
 const Navbar = () => {
   const { userName, setUserName, userRole, notifications, setNotifications, setUserRole } = useContext(UserContext);
@@ -19,7 +20,7 @@ const Navbar = () => {
     if (!token) return;
 
     try {
-      const res = await axios.get("https://marisa-nonretired-willis.ngrok-free.dev/api/notifications", {
+      const res = await axios.get(`${API_BASE_URL}/notifications`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'ngrok-skip-browser-warning': 'true'
@@ -55,7 +56,7 @@ const Navbar = () => {
       const adminToken = localStorage.getItem("admin_token");
 
       if (customerToken) {
-        await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/customer/logout", {
+        await fetch(`${API_BASE_URL}/customer/logout`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +66,7 @@ const Navbar = () => {
       }
 
       if (adminToken) {
-        await fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/admin/logout", {
+        await fetch(`${API_BASE_URL}/admin/logout`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

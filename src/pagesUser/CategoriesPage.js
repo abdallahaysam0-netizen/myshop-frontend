@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../apiConfig";
 import CategoryCard from "../components/categorycard";
 
 const CategoriesPage = () => {
@@ -6,7 +7,7 @@ const CategoriesPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://marisa-nonretired-willis.ngrok-free.dev/api/categories", {
+    fetch(`${API_BASE_URL}/categories`, {
       headers: {
         "ngrok-skip-browser-warning": "true"
       }
@@ -24,7 +25,7 @@ const CategoriesPage = () => {
   // --- واجهة التحميل الذكية (Skeleton Loader) ---
   if (loading) {
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="animate-pulse bg-zinc-900/50 rounded-3xl h-64 border border-white/5"></div>
         ))}
@@ -42,7 +43,7 @@ const CategoriesPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 transition-all duration-500 ease-in-out">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8 transition-all duration-500 ease-in-out">
       {categories.map((cat, index) => (
         <div
           key={cat.id}

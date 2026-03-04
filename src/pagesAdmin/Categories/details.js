@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { API_BASE_URL } from "../../apiConfig";
 
 export default function AdminCategoriesDetails() {
     const { id } = useParams();
@@ -7,7 +8,7 @@ export default function AdminCategoriesDetails() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${id}`, {
+        fetch(`${API_BASE_URL}/categories/${id}`, {
             headers: {
                 'ngrok-skip-browser-warning': 'true'
             }

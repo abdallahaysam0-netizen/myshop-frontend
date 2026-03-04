@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { API_BASE_URL } from "../apiConfig";
 import { useParams, useNavigate } from "react-router-dom";
 import addToCart from "../components/AddToCart";
 import { ArrowRight, ShoppingCart, ShieldCheck, Truck, Star, Plus, Minus } from "lucide-react";
@@ -15,7 +16,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/products/${id}`, {
+    fetch(`${API_BASE_URL}/products/${id}`, {
       headers: { "ngrok-skip-browser-warning": "true" }
     })
       .then(res => res.json())
@@ -27,7 +28,7 @@ const ProductDetails = () => {
             image: productData.image
               ? (productData.image.startsWith("http")
                 ? productData.image
-                : `https://marisa-nonretired-willis.ngrok-free.dev/storage/${productData.image}`)
+                : `${API_BASE_URL.replace('/api', '')}/storage/${productData.image}`)
               : null
           };
           setProduct(fixedProduct);
@@ -45,7 +46,7 @@ const ProductDetails = () => {
   }, [id]);
 
   const fetchRelated = (categoryId) => {
-    fetch(`https://marisa-nonretired-willis.ngrok-free.dev/api/categories/${categoryId}/products`, {
+    fetch(`${API_BASE_URL}/categories/${categoryId}/products`, {
       headers: {
         "ngrok-skip-browser-warning": "true"
       }
