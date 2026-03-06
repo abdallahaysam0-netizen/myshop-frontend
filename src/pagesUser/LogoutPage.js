@@ -10,7 +10,7 @@ const LogoutPage = () => {
                 credentials: "include", // مهم لو Sanctum و Cookies
                 headers: {
                     "Content-Type": "application/json",
-                    'ngrok-skip-browser-warning': 'true'
+                    "X-Requested-With": "XMLHttpRequest"
                 }
             })
             if (res.ok) {

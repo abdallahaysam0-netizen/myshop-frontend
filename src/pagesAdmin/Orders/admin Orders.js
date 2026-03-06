@@ -23,7 +23,7 @@ export default function AdminOrders() {
         headers: {
           Authorization: `Bearer ${token}`,
           "Accept": "application/json",
-          "ngrok-skip-browser-warning": "true"
+          "X-Requested-With": "XMLHttpRequest"
         },
       });
       if (res.data.success) setOrders(res.data.orders || []);
@@ -70,7 +70,7 @@ export default function AdminOrders() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'ngrok-skip-browser-warning': 'true'
+            'X-Requested-With': 'XMLHttpRequest'
           }
         }
       );

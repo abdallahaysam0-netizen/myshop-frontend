@@ -24,7 +24,7 @@ export default function AdminDashboard() {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "true",
+                "X-Requested-With": "XMLHttpRequest",
             }
         })
             .then(async res => {

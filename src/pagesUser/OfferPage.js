@@ -12,7 +12,7 @@ const OfferPage = () => {
     const fetchOffers = async () => {
       try {
         const response = await axios.get(`${API_BASE_URL}/products-offers`, {
-          headers: { 'ngrok-skip-browser-warning': 'true' }
+          headers: { "X-Requested-With": "XMLHttpRequest" }
         });
         if (response.data.success) {
           setProducts(response.data.data.data);

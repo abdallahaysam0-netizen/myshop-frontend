@@ -30,7 +30,7 @@ const ProductsPage = () => {
     fetch(url, {
       headers: {
         "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true" // السطر ده هو اللي هيظهر البيانات
+        "X-Requested-With": "XMLHttpRequest"
       }
     })
       .then((res) => res.json())
@@ -75,8 +75,8 @@ const ProductsPage = () => {
           <button
             onClick={() => setShowSearch(!showSearch)}
             className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-bold transition-all duration-300 ${showSearch
-                ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]"
-                : "bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300"
+              ? "bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]"
+              : "bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300"
               }`}
           >
             <Search size={20} />

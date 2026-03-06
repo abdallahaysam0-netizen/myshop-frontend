@@ -10,7 +10,7 @@ export default function AdminCategoriesDetails() {
     useEffect(() => {
         fetch(`${API_BASE_URL}/categories/${id}`, {
             headers: {
-                'ngrok-skip-browser-warning': 'true'
+                "X-Requested-With": "XMLHttpRequest"
             }
         })
             .then(res => res.json())

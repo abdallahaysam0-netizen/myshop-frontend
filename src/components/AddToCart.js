@@ -14,7 +14,7 @@ const addToCart = async (productId) => {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`,
-        'ngrok-skip-browser-warning': 'true' // مهم جداً
+        "X-Requested-With": "XMLHttpRequest"
       },
       body: JSON.stringify({
         product_id: productId,

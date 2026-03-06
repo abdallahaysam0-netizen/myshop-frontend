@@ -37,7 +37,7 @@ import useNotifications from './hooks/useNotifications';
 import OfferPage from './pagesUser/OfferPage';
 import axios from 'axios';
 // السطر ده هيخلي أي طلب يطلع من الـ React يروح للـ Backend ومعاه الـ "تصريح"
-axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 function App() {
   // 2️⃣ استدعاء المستخدم من السياق

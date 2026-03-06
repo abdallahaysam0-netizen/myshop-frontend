@@ -23,7 +23,7 @@ const Navbar = () => {
       const res = await axios.get(`${API_BASE_URL}/notifications`, {
         headers: {
           Authorization: `Bearer ${token}`,
-          'ngrok-skip-browser-warning': 'true'
+          "X-Requested-With": "XMLHttpRequest"
         }
       });
       setNotifications(res.data);
@@ -61,6 +61,7 @@ const Navbar = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${customerToken}`,
+            "X-Requested-With": "XMLHttpRequest"
           },
         });
       }
@@ -71,6 +72,7 @@ const Navbar = () => {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${adminToken}`,
+            "X-Requested-With": "XMLHttpRequest"
           },
         });
       }

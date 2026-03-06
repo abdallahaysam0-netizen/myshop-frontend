@@ -9,7 +9,7 @@ const CategoriesPage = () => {
   useEffect(() => {
     fetch(`${API_BASE_URL}/categories`, {
       headers: {
-        "ngrok-skip-browser-warning": "true"
+        "X-Requested-With": "XMLHttpRequest"
       }
     })
       .then(res => res.json())

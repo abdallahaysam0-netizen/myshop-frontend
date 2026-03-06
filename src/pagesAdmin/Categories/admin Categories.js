@@ -27,7 +27,7 @@ export default function AdminCategory() {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
-          "ngrok-skip-browser-warning": "true" // لتخطي شاشة ngrok
+          "X-Requested-With": "XMLHttpRequest"
         },
       });
 

@@ -16,7 +16,10 @@ export default function AdminProducts() {
     try {
       setLoading(true);
       const res = await fetch(`${API_BASE_URL}/products?page=${currentPage}`, {
-        headers: { Authorization: `Bearer ${token}`, "ngrok-skip-browser-warning": "true" },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest"
+        },
       });
       const data = await res.json();
       if (data.success) {
@@ -35,7 +38,10 @@ export default function AdminProducts() {
     try {
       const res = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest"
+        },
       });
       const data = await res.json();
       if (res.ok && data.success) {

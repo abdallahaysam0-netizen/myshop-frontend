@@ -36,7 +36,7 @@ const OrderPage = () => {
       headers: {
         "Authorization": `Bearer ${token}`,
         "Accept": "application/json",
-        'ngrok-skip-browser-warning': 'true'
+        'X-Requested-With': 'XMLHttpRequest'
       },
     })
       .then(async (res) => {
@@ -64,7 +64,7 @@ const OrderPage = () => {
         headers: {
           "Authorization": `Bearer ${token}`,
           "Accept": "application/json",
-          "ngrok-skip-browser-warning": "true",
+          "X-Requested-With": "XMLHttpRequest",
         },
       });
 

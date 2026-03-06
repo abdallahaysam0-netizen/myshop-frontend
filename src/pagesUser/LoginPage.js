@@ -25,8 +25,10 @@ const LoginPage = () => {
         setLoading(true);
         setError("");
         try {
-            const res = await axios.post(`${API_BASE_URL}/login`, formData);
-            axios.defaults.headers.common['ngrok-skip-browser-warning'] = 'true';
+            const res = await axios.post(`${API_BASE_URL}/login`, formData, {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+            });
+            axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
             // استخراج البيانات من استجابة Laravel
             const { id, role, name } = res.data.user;
             const token = res.data.token;

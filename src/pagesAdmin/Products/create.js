@@ -57,7 +57,7 @@ export default function AdminCreateProduct() {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "ngrok-skip-browser-warning": "true"
+                    "X-Requested-With": "XMLHttpRequest"
                 },
                 body: formData,
             });

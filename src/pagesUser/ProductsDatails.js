@@ -17,7 +17,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setLoading(true);
     fetch(`${API_BASE_URL}/products/${id}`, {
-      headers: { "ngrok-skip-browser-warning": "true" }
+      headers: { "X-Requested-With": "XMLHttpRequest" }
     })
       .then(res => res.json())
       .then(data => {
@@ -48,7 +48,7 @@ const ProductDetails = () => {
   const fetchRelated = (categoryId) => {
     fetch(`${API_BASE_URL}/categories/${categoryId}/products`, {
       headers: {
-        "ngrok-skip-browser-warning": "true"
+        "X-Requested-With": "XMLHttpRequest"
       }
     })
       .then(res => res.json())

@@ -53,7 +53,7 @@ export default function AdminCreateCategory() {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "ngrok-skip-browser-warning": "true", // لتخطي شاشة ngrok
+                    "X-Requested-With": "XMLHttpRequest",
                 },
                 body: formData,
             });

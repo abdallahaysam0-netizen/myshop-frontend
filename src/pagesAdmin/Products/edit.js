@@ -45,7 +45,10 @@ export default function AdminEditProduct() {
     const fetchProduct = async () => {
       try {
         const res = await fetch(`${API_BASE_URL}/products/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "X-Requested-With": "XMLHttpRequest"
+          },
         });
         const data = await res.json();
 
@@ -103,7 +106,7 @@ export default function AdminEditProduct() {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          'ngrok-skip-browser-warning': 'true'
+          "X-Requested-With": "XMLHttpRequest"
         },
         body: formData,
       });

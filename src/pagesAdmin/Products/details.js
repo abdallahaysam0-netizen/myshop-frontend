@@ -12,7 +12,7 @@ export default function ProductAdminDetails() {
     fetch(`${API_BASE_URL}/products/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "ngrok-skip-browser-warning": "true"
+        "X-Requested-With": "XMLHttpRequest"
       }
     })
       .then((res) => res.json())

@@ -24,7 +24,7 @@ export default function AdminOrdersDetails() {
         headers: {
           Authorization: `Bearer ${token}`,
           "Accept": "application/json",
-          "ngrok-skip-browser-warning": "true"
+          "X-Requested-With": "XMLHttpRequest"
         },
       });
       if (res.data.success) {

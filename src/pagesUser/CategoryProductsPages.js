@@ -14,7 +14,7 @@ const CategoryProduct = () => {
     setLoading(true);
     fetch(`${API_BASE_URL}/categories/${id}/products`, {
       headers: {
-        "ngrok-skip-browser-warning": "true"
+        "X-Requested-With": "XMLHttpRequest"
       }
     })
       .then(res => res.json())

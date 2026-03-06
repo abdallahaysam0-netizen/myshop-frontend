@@ -22,7 +22,7 @@ export default function AdminUsers() {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
-          "ngrok-skip-browser-warning": "true"
+          "X-Requested-With": "XMLHttpRequest"
         },
       });
 
@@ -47,7 +47,10 @@ export default function AdminUsers() {
     try {
       const res = await fetch(`${API_BASE_URL}/users/${id}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-Requested-With": "XMLHttpRequest"
+        },
       });
 
       const data = await res.json();

@@ -17,7 +17,7 @@ const CartPage = () => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          "ngrok-skip-browser-warning": "true"
+          "X-Requested-With": "XMLHttpRequest"
         },
       });
       const data = await res.json();
@@ -48,7 +48,7 @@ const CartPage = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-        "ngrok-skip-browser-warning": "true"
+        "X-Requested-With": "XMLHttpRequest"
       },
       body: JSON.stringify({ quantity: newQty }),
     });
@@ -61,7 +61,7 @@ const CartPage = () => {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
-        "ngrok-skip-browser-warning": "true"
+        "X-Requested-With": "XMLHttpRequest"
       },
     });
     await res.json();
