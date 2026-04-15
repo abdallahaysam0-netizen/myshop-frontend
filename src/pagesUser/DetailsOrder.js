@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "../apiConfig";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowRight, Package, Calendar, Tag, CreditCard, CheckCircle2, Clock, Truck, Box } from "lucide-react";
+import { ArrowRight, Package, Calendar, Tag, CreditCard, CheckCircle2, Clock, Truck, Box, AlertTriangle, XCircle, Undo2 } from "lucide-react";
 
 const DetailsOrderPage = () => {
   const { id } = useParams();
@@ -32,8 +32,13 @@ const DetailsOrderPage = () => {
 
   // تحديث الخطوات لتشمل الحالة المبدئية DRAFT
   const getStatusStep = (status) => {
-    const steps = ["draft", "confirmed", "processing", "shipped", "delivered", "completed"];
-    return steps.indexOf(status);
+    const steps = ["draft", "pending", "pending_payment", "confirmed", "processing", "shipped", "delivered", "completed"];
+    const index = steps.indexOf(status);
+    if (index === -1) return -1;
+    // دمج الحالات الأولى (draft, pending, pending_payment) لتكون جميعها الخطوة 0
+    if (index <= 2) return 0;
+    // إزاحة باقي الخطوات لتناسب الترتيب الجديد (3 -> 1, 4 -> 2, إلخ)
+    return index - 2;
   };
 
   if (loading) return (
@@ -57,34 +62,62 @@ const DetailsOrderPage = () => {
           <div>
             <button
               onClick={() => navigate("/orders")}
-              className="flex items-center gap-2 text-gray-500 hover:text-white mb-4 transition-colors group text-sm font-bold"
+              className="flex items-center gap-2 text-gray-400 hover:text-white mb-6 transition-all group px-4 py-2 bg-white/5 rounded-full border border-white/5 hover:bg-white/10"
             >
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              العودة لقائمة الطلبات
+              <span>العودة لقائمة الطلبات</span>
             </button>
             <h1 className="text-3xl md:text-5xl font-black tracking-tight flex items-center gap-3">
               <Package className="text-blue-500" size={32} />
               طلب رقم #{order.order_number || order.id}
             </h1>
           </div>
-          <div className="flex flex-col items-start md:items-end">
-            <span className="text-gray-500 text-sm mb-1 uppercase tracking-widest font-bold">تاريخ الطلب</span>
-            <span className="font-bold flex items-center gap-2"><Calendar size={16} /> {new Date(order.created_at).toLocaleDateString('ar-EG')}</span>
+          <div className="flex flex-col items-start md:items-end bg-zinc-900/40 p-4 rounded-2xl border border-white/5">
+            <span className="text-gray-500 text-xs mb-1 uppercase tracking-widest font-bold">تاريخ الطلب</span>
+            <span className="font-bold flex items-center gap-2 text-blue-400"><Calendar size={16} /> {new Date(order.created_at).toLocaleDateString('ar-EG')}</span>
           </div>
         </div>
+
+        {/* تنبيه في حال الإلغاء أو الاسترجاع */}
+        {(order.status === "cancelled" || order.status === "canceled" || order.status === "refunded") && (
+          <div className={`mb-10 p-6 rounded-[2rem] border flex items-center gap-4 animate-in fade-in slide-in-from-top-4 duration-700 ${order.status === "refunded"
+              ? "bg-amber-500/10 border-amber-500/20 text-amber-500"
+              : "bg-red-500/10 border-red-500/20 text-red-500"
+            }`}>
+            <div className={`p-4 rounded-2xl ${order.status === "refunded" ? "bg-amber-500/20" : "bg-red-500/20"}`}>
+              {order.status === "refunded" ? <Undo2 size={32} /> : <XCircle size={32} />}
+            </div>
+            <div>
+              <h3 className="text-xl font-black mb-1">
+                {order.status === "refunded" ? "تم استرداد المبلغ" : "تم إلغاء الطلب"}
+              </h3>
+              <p className={`text-sm opacity-80 font-medium`}>
+                {order.status === "refunded"
+                  ? "لقد تمت عملية استرداد الأموال بنجاح إلى حسابك."
+                  : "نأسف، لقد تم إلغاء هذا الطلب ولا يمكن متابعته."}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* شريط التتبع المعدل */}
-        <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-[2.5rem] mb-10 overflow-x-auto">
-          <div className="flex justify-between items-center min-w-[600px] relative">
-            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-zinc-800 -translate-y-1/2 z-0" />
+        {order.status !== "cancelled" && order.status !== "canceled" && order.status !== "refunded" && (
+          <div className="bg-zinc-900/30 border border-white/5 p-8 rounded-[2.5rem] mb-10 overflow-x-auto">
+            <div className="flex justify-between items-center min-w-[600px] relative">
+              <div className="absolute top-1/2 left-0 w-full h-0.5 bg-zinc-800 -translate-y-1/2 z-0" />
 
-            <TrackingStep icon={<Clock />} label="بانتظار الدفع" active={getStatusStep(order.status) >= 0} />
-            <TrackingStep icon={<CheckCircle2 />} label="تم التأكيد" active={getStatusStep(order.status) >= 1} />
-            <TrackingStep icon={<Box />} label="قيد التجهيز" active={getStatusStep(order.status) >= 2} />
-            <TrackingStep icon={<Truck />} label="تم الشحن" active={getStatusStep(order.status) >= 3} />
-            <TrackingStep icon={<Package />} label="مكتمل" active={getStatusStep(order.status) >= 5} />
+              <TrackingStep 
+                icon={<Clock />} 
+                label={order.payment_method === 'cod' ? "قيد المراجعة" : "بانتظار الدفع"} 
+                active={getStatusStep(order.status) >= 0} 
+              />
+              <TrackingStep icon={<CheckCircle2 />} label="تم التأكيد" active={getStatusStep(order.status) >= 1} />
+              <TrackingStep icon={<Box />} label="قيد التجهيز" active={getStatusStep(order.status) >= 2} />
+              <TrackingStep icon={<Truck />} label="تم الشحن" active={getStatusStep(order.status) >= 3} />
+              <TrackingStep icon={<Package />} label="مكتمل" active={getStatusStep(order.status) >= 4} />
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start">
           <div className="lg:col-span-2 space-y-6">
@@ -143,17 +176,32 @@ const DetailsOrderPage = () => {
 
               <div className="p-4 bg-white/5 rounded-2xl border border-white/5 text-xs text-gray-500 leading-relaxed">
                 <p>وسيلة الدفع: <span className="text-white font-bold capitalize">{order.payment_method}</span></p>
-                <p className="mt-1">حالة الدفع: <span className="text-white font-bold capitalize">{order.payment_status}</span></p>
               </div>
             </div>
 
             <div className="bg-zinc-900/20 p-6 rounded-3xl border border-white/5">
-              <h4 className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">حالة الطلب</h4>
+              <h4 className="text-xs font-bold text-gray-600 uppercase tracking-widest mb-3">حالة الطلب الحالية</h4>
               <div className="flex items-center gap-3">
-                <div className={`w-3 h-3 rounded-full animate-pulse ${order.status === 'completed' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
-                <span className="text-lg font-bold capitalize">{order.status}</span>
+                <div className={`w-3 h-3 rounded-full animate-pulse ${order.status === 'completed' ? 'bg-emerald-500' :
+                    (order.status === 'cancelled' || order.status === 'canceled') ? 'bg-red-500' :
+                      order.status === 'refunded' ? 'bg-amber-500' :
+                        'bg-blue-500'
+                  }`} />
+                <span className="text-lg font-bold capitalize">
+                  {order.status === 'cancelled' || order.status === 'canceled' ? 'ملغي' :
+                    order.status === 'refunded' ? 'تم الاسترجاع' :
+                      order.status}
+                </span>
               </div>
             </div>
+
+            <button
+              onClick={() => navigate("/order")}
+              className="w-full py-5 rounded-[2rem] bg-white/5 border border-white/5 text-white font-bold hover:bg-white/10 transition-all flex items-center justify-center gap-3 group"
+            >
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              العودة لجميع طلباتي
+            </button>
           </div>
         </div>
       </div>

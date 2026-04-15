@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { API_BASE_URL } from "../apiConfig";
 import {
   Package, Clock, CheckCircle2, XCircle, ChevronLeft,
-  Calendar, CreditCard, ShoppingBag, AlertCircle, Hash, Copy, Loader2
+  Calendar, CreditCard, ShoppingBag, AlertCircle, Hash, Copy, Loader2, RotateCcw
 } from "lucide-react";
 
 const OrderPage = () => {
@@ -11,6 +11,7 @@ const OrderPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isCancelling, setIsCancelling] = useState(false);
+  const [isRefunding, setIsRefunding] = useState(false);
   const [searchParams] = useSearchParams();
 
   const token = localStorage.getItem("token");
@@ -82,7 +83,37 @@ const OrderPage = () => {
     }
   };
 
-  const getStatusDetails = (status) => {
+  const handleUserRefund = async (orderId) => {
+    if (!window.confirm("هل أنت متأكد من رغبتك في طلب استرجاع الأموال لهذا الطلب؟")) return;
+
+    setIsRefunding(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/refund`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: JSON.stringify({ order_id: orderId })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert("تمت عملية الاسترجاع بنجاح.");
+        setOrders(prev => prev.map(o => (o.id === orderId ? { ...o, status: "refunded" } : o)));
+      } else {
+        alert(data.message || "فشلت عملية الاسترجاع.");
+      }
+    } catch (err) {
+      alert("حدث خطأ أثناء محاولة الاسترجاع.");
+    } finally {
+      setIsRefunding(false);
+    }
+  };
+
+  const getStatusDetails = (status, paymentMethod) => {
     switch (status) {
       case "delivered":
       case "completed":
@@ -90,12 +121,21 @@ const OrderPage = () => {
       case "processing":
       case "confirmed":
         return { color: "text-blue-400 bg-blue-500/10 border-blue-500/20", icon: <Clock size={14} />, label: "قيد التنفيذ" };
-      case "pending": // حالة انتظار دفع فوري
-        return { color: "text-yellow-400 bg-yellow-500/10 border-yellow-500/20", icon: <Loader2 size={14} className="animate-spin" />, label: "بانتظار الدفع" };
+      case "pending":
+      case "pending_payment":
+      case "draft": // حالة انتظار دفع فوري
+        const isCod = paymentMethod === 'cod';
+        return { 
+          color: isCod ? "text-blue-400 bg-blue-500/10 border-blue-500/20" : "text-yellow-400 bg-yellow-500/10 border-yellow-500/20", 
+          icon: isCod ? <Clock size={14} /> : <Loader2 size={14} className="animate-spin" />, 
+          label: isCod ? "قيد المراجعة" : "بانتظار الدفع" 
+        };
       case "shipped":
         return { color: "text-indigo-400 bg-indigo-500/10 border-indigo-500/20", icon: <Package size={14} />, label: "تم الشحن" };
       case "cancelled":
         return { color: "text-red-400 bg-red-500/10 border-red-500/20", icon: <XCircle size={14} />, label: "ملغي" };
+      case "refunded":
+        return { color: "text-zinc-400 bg-zinc-500/10 border-zinc-500/20", icon: <RotateCcw size={14} />, label: "مسترجع" };
       default:
         return { color: "text-gray-400 bg-gray-500/10 border-gray-500/20", icon: <AlertCircle size={14} />, label: status };
     }
@@ -132,7 +172,11 @@ const OrderPage = () => {
         {searchParams.get('status') === 'success' && (
           <div className="mb-8 p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center gap-3 text-emerald-400 animate-in fade-in slide-in-from-top-4">
             <CheckCircle2 size={20} />
-            <p className="font-bold">تم تأكيد الدفع بنجاح! طلبك الآن تحت المراجعة.</p>
+            <p className="font-bold">
+              {searchParams.get('payment_method') === 'cod' 
+                ? "طلبك قيد المراجعه" 
+                : "تم تأكيد الدفع بنجاح! طلبك الآن تحت المراجعة."}
+            </p>
           </div>
         )}
 
@@ -149,7 +193,7 @@ const OrderPage = () => {
         ) : (
           <div className="space-y-6">
             {orders.map((order) => {
-              const status = getStatusDetails(order.status);
+              const status = getStatusDetails(order.status, order.payment_method);
 
               // ✅ المنطق البرمجي لإظهار كود فوري:
               // يظهر الكود إذا كانت الطريقة فوري والحالة انتظار (pending)
@@ -158,7 +202,7 @@ const OrderPage = () => {
                 : null;
 
               // ✅ منطق إظهار معلومات الدفع المعلق
-              const showPendingPayment = order.status === 'pending' && ['credit_card', 'fawry', 'wallet'].includes(order.payment_method);
+              const showPendingPayment = order.status === 'pending' && ['credit_card', 'fawry'].includes(order.payment_method);
 
               return (
                 <div key={order.id} className="group relative bg-zinc-900/40 border border-white/5 p-6 rounded-[2rem] transition-all hover:bg-zinc-900/60 hover:border-blue-500/30 backdrop-blur-sm">
@@ -188,8 +232,19 @@ const OrderPage = () => {
                           <ChevronLeft size={20} />
                         </Link>
                         {order.can_be_cancelled && (
-                          <button onClick={() => handleUserCancel(order.id)} disabled={isCancelling} className="p-2.5 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all">
-                            <XCircle size={20} />
+                          <button 
+                            onClick={() => handleUserCancel(order.id)} 
+                            disabled={isCancelling} 
+                            className="flex items-center gap-2 px-4 py-2.5 bg-red-500/10 text-red-500 rounded-xl hover:bg-red-500 hover:text-white transition-all font-bold text-xs" 
+                            title="إلغاء الطلب"
+                          >
+                            <XCircle size={18} />
+                            <span className="hidden sm:inline">إلغاء الطلب</span>
+                          </button>
+                        )}
+                        {order.payment_status === "paid" && order.status !== "refunded" && (
+                          <button onClick={() => handleUserRefund(order.id)} disabled={isRefunding} className="p-2.5 bg-zinc-500/10 text-zinc-400 rounded-xl hover:bg-zinc-500 hover:text-white transition-all" title="طلب استرجاع">
+                            <RotateCcw size={20} />
                           </button>
                         )}
                       </div>
@@ -229,7 +284,6 @@ const OrderPage = () => {
                             <p className="text-gray-400 text-sm mt-1">
                               {order.payment_method === 'credit_card' && "يرجى إتمام الدفع عبر البطاقة الائتمانية"}
                               {order.payment_method === 'fawry' && "يرجى الدفع عبر أي منفذ فوري باستخدام الكود أعلاه"}
-                              {order.payment_method === 'wallet' && "يرجى إتمام الدفع عبر المحفظة الإلكترونية"}
                             </p>
                           </div>
                         </div>

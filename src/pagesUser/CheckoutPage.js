@@ -82,7 +82,7 @@ const CheckoutPage = () => {
 
       // 2. حالة الدفع عند الاستلام
       if (formData.payment_method === "cod") {
-        navigate("/order?status=success");
+        navigate("/order?status=success&payment_method=cod");
         return;
       }
 
@@ -106,11 +106,12 @@ const CheckoutPage = () => {
             setErrorDetails({ message: "تعذر الحصول على كود فوري" });
           }
         }
-        else if (formData.payment_method === "wallet") {
-          if (paymentInfo.redirect_url) {
-            window.location.href = paymentInfo.redirect_url;
+        else if (formData.payment_method === "stripe") {
+          const sUrl = paymentInfo.redirect_url || paymentInfo.gateway_url;
+          if (sUrl) {
+            window.location.href = sUrl;
           } else {
-            setErrorDetails({ message: "فشل الحصول على رابط المحفظة" });
+            setErrorDetails({ message: "فشل الحصول على رابط الدفع (Stripe)" });
           }
         }
       }
@@ -176,10 +177,12 @@ const CheckoutPage = () => {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <PaymentOption id="cod" title="كاش" desc="الدفع عند الاستلام" selected={formData.payment_method === "cod"} onChange={handlePaymentMethodChange} />
-              <PaymentOption id="credit_card" title="بطاقة بنكية" desc="فيزا / ماستر كارد" selected={formData.payment_method === "credit_card"} onChange={handlePaymentMethodChange} />
+              <PaymentOption id="credit_card" title="بطاقة بنكية (Paymob)" desc="فيزا / ماستر كارد" selected={formData.payment_method === "credit_card"} onChange={handlePaymentMethodChange} />
+              <PaymentOption id="stripe" title="بطاقة بنكية (Stripe)" desc="دفع آمن بالبطاقة" icon={<CreditCard size={16} />} selected={formData.payment_method === "stripe"} onChange={handlePaymentMethodChange} />
               <PaymentOption id="fawry" title="فوري" desc="كود دفع للمكينات" icon={<Hash size={16} />} selected={formData.payment_method === "fawry"} onChange={handlePaymentMethodChange} />
-              <PaymentOption id="wallet" title="محفظة إلكترونية" desc="فودافون كاش" icon={<Smartphone size={16} />} selected={formData.payment_method === "wallet"} onChange={handlePaymentMethodChange} />
             </div>
+
+
 
             <button onClick={submitOrder} disabled={loading} className="w-full bg-blue-600 hover:bg-blue-500 text-white py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-3 transition-all active:scale-[0.98] disabled:opacity-50">
               {loading ? <Loader2 className="animate-spin" /> : <CheckCircle2 size={24} />}
@@ -262,12 +265,16 @@ const InputGroup = ({ label, children, icon }) => (
 );
 
 const PaymentOption = ({ id, title, desc, selected, onChange, icon }) => (
-  <label className={`cursor-pointer flex flex-col p-5 rounded-2xl border-2 transition-all duration-300 ${selected ? 'border-blue-600 bg-blue-600/10' : 'border-white/5 bg-zinc-800/20 hover:border-white/20'}`}>
+  <label className={`cursor-pointer flex flex-col p-5 rounded-2xl border-2 transition-all duration-500 relative overflow-hidden group ${selected ? 'border-blue-600 bg-blue-600/5 shadow-[0_0_20px_rgba(37,99,235,0.1)]' : 'border-white/5 bg-zinc-800/10 hover:border-white/10 hover:bg-zinc-800/30'}`}>
+    {selected && <div className="absolute top-0 right-0 w-2 h-full bg-blue-600"></div>}
     <div className="flex justify-between items-center mb-1">
-      <span className="font-bold flex items-center gap-2">{icon} {title}</span>
-      <input type="radio" name="payment_method" value={id} checked={selected} onChange={onChange} className="w-4 h-4 accent-blue-600" />
+      <span className={`font-bold flex items-center gap-2 transition-colors ${selected ? 'text-blue-400' : 'text-gray-300'}`}>{icon} {title}</span>
+      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${selected ? 'border-blue-500 bg-blue-500' : 'border-white/10'}`}>
+        {selected && <CheckCircle2 size={12} className="text-white" />}
+      </div>
+      <input type="radio" name="payment_method" value={id} checked={selected} onChange={onChange} className="hidden" />
     </div>
-    <span className="text-xs text-gray-500">{desc}</span>
+    <span className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">{desc}</span>
   </label>
 );
 

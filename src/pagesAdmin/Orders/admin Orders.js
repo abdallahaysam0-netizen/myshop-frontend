@@ -4,7 +4,7 @@ import Sidebar from "../../components/sidebar";
 import axios from "axios";
 import {
   Package, User, MapPin, CreditCard, Clock,
-  Loader2, Wallet, Smartphone, Banknote, AlertCircle
+  Loader2, Smartphone, Banknote, AlertCircle
 } from "lucide-react";
 
 export default function AdminOrders() {
@@ -98,7 +98,6 @@ export default function AdminOrders() {
     switch (method?.toLowerCase()) {
       case 'visa': return <CreditCard size={16} />;
       case 'fawry': return <Smartphone size={16} />;
-      case 'wallet': return <Wallet size={16} />;
       case 'cod': return <Banknote size={16} />;
       default: return <AlertCircle size={16} />;
     }
@@ -190,10 +189,6 @@ export default function AdminOrders() {
                       <div className="w-full p-3 rounded-xl border border-white/5 bg-zinc-800/50 flex items-center justify-center gap-2 text-blue-400 font-black text-xs uppercase tracking-tighter">
                         {getPaymentIcon(order.payment_method)}
                         <span>{order.payment_method || 'N/A'}</span>
-                        <span className="text-[10px] text-gray-600 mx-1">|</span>
-                        <span className={order.payment_status === 'paid' ? 'text-emerald-500' : 'text-amber-500'}>
-                          {order.payment_status || 'PENDING'}
-                        </span>
                       </div>
                     </div>
                   </div>

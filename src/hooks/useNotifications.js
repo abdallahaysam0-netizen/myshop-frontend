@@ -34,7 +34,7 @@ const useNotifications = (user) => {
             wssPort: 8080,
             forceTLS: false,
             enabledTransports: ['ws', 'wss'],
-            authEndpoint: `${API_BASE_URL}/broadcasting/auth`,
+            authEndpoint: `http://127.0.0.1:8000/broadcasting/auth`,
             auth: {
                 headers: {
                     Authorization: `Bearer ${token}`,
